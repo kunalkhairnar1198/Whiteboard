@@ -1,0 +1,16 @@
+export const FILTER_INDICES = {
+  GRAYSCALE: 0,
+  INVERT: 1,
+  SEPIA: 2,
+  BROWNIE: 3,   
+  BRIGHTNESS: 4,
+  CONTRAST: 5,
+  SATURATION: 6,
+  NOISE: 7,
+  PIXELATE: 8,
+  BLUR: 9,
+  SHARPEN: 10,
+  TECHNICOLOR: 11,
+  POLAROID: 12,
+  HUE: 13,
+};
