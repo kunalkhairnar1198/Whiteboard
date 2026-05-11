@@ -81,10 +81,12 @@ export const drawGrid = (canvas, showGrid, gridSize, canvasSize, gridGroup) => {
   if (!showGrid) return;
 
   const lines = [];
+  const start = -5000;
+  const end = 5000;
 
-  for (let i = 0; i <= canvasSize.width; i += gridSize) {
+  for (let i = start; i <= end; i += gridSize) {
     lines.push(
-      new Line([i, 0, i, canvasSize.height], {
+      new Line([i, start, i, end], {
         stroke: '#e5e7eb',
         strokeWidth: 1,
         selectable: false,
@@ -93,9 +95,9 @@ export const drawGrid = (canvas, showGrid, gridSize, canvasSize, gridGroup) => {
     );
   }
 
-  for (let i = 0; i <= canvasSize.height; i += gridSize) {
+  for (let i = start; i <= end; i += gridSize) {
     lines.push(
-      new Line([0, i, canvasSize.width, i], {
+      new Line([start, i, end, i], {
         stroke: '#e5e7eb',
         strokeWidth: 1,
         selectable: false,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as fabric from 'fabric';
-import { Filter } from 'lucide-react';
+import { Filter, ChevronRight, ChevronLeft } from 'lucide-react';
 import ImageFilterPanel from '@/features/editor/components/filters/ImageFilterPanel';
 import LayerItem from '@/features/editor/components/layer-item/LayerItem';
 import { reorderLayersByIds } from '@/features/editor/lib/layerOrder';
@@ -10,6 +10,7 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
   DndContext,
   closestCenter,
@@ -140,15 +141,28 @@ const RightSidebar = ({
   }, [canvas, saveState, syncElements]);
 
   return (
-    <Sidebar side="right" mobileOpen={showRightSidebar} className="w-64 sm:w-80 md:w-72 lg:w-80">
-      <SidebarHeader>
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="font-semibold text-sm">Inspector</p>
-            <p className="text-muted-foreground text-xs">Properties, layers, and filters</p>
-          </div>
+    <Sidebar 
+      side="right" 
+      mobileOpen={showRightSidebar}
+    >
+
+      <SidebarHeader className="flex flex-row items-center justify-between p-4 border-b">
+        <div>
+          <p className="font-semibold text-sm">Inspector</p>
+          <p className="text-muted-foreground text-xs">Properties, layers, and filters</p>
         </div>
-        <div className="flex">
+        <Button 
+          variant="secondary" 
+          size="icon" 
+          onClick={() => setShowRightSidebar(!showRightSidebar)}
+          className="absolute left-0 -translate-x-full top-0 h-10 w-10 rounded-l-xl rounded-r-none border-r-0 shadow-lg z-[110] bg-white hover:bg-slate-50"
+          title={showRightSidebar ? "Collapse Inspector" : "Open Inspector"}
+        >
+          <ChevronRight className={cn("h-5 w-5 transition-transform duration-300", !showRightSidebar && "rotate-180")} />
+        </Button>
+      </SidebarHeader>
+
+      <div className="flex">
           <Button
             onClick={() => {
               setShowLayers(false);
@@ -195,7 +209,6 @@ const RightSidebar = ({
             </Button>
           )}
         </div>
-      </SidebarHeader>
 
       <SidebarContent>
         {showFilters && selectedElement?.type === 'image' ? (
@@ -253,7 +266,7 @@ const RightSidebar = ({
             {selectedIds.length === 0 ? (
               currentTool === 'brush' ? (
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-600 text-xs">
+                  <h4 className="font-semibold text-muted-foreground text-xs">
                     Brush
                   </h4>
                   {currentTool === 'brush' && (
@@ -306,7 +319,7 @@ const RightSidebar = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <h5 className="font-semibold text-gray-600 text-xs">Shadow</h5>
+                    <h5 className="font-semibold text-muted-foreground text-xs">Shadow</h5>
                     <div>
                       <label className="block mb-1 text-gray-500 text-xs">Shadow Color</label>
                       <input
@@ -351,7 +364,7 @@ const RightSidebar = ({
                 </div>
               ) : currentTool === 'eraser' ? (
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-600 text-xs">Eraser</h4>
+                  <h4 className="font-semibold text-muted-foreground text-xs">Eraser</h4>
                   <div>
                     <label className="block mb-1 text-gray-500 text-xs">Size: {eraserSize}px</label>
                     <div className="flex items-center gap-2">
@@ -385,7 +398,7 @@ const RightSidebar = ({
                 </div>
               ) : currentTool === 'pen' ? (
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-600 text-xs">Pen Tool</h4>
+                  <h4 className="font-semibold text-muted-foreground text-xs">Pen Tool</h4>
                   <div>
                     <label className="block mb-1 text-gray-500 text-xs">Stroke Color</label>
                     <input
@@ -414,7 +427,7 @@ const RightSidebar = ({
                         onChange={() => penTool.toggleSnap()}
                         className="w-4 h-4"
                       />
-                      <span className="text-gray-600 text-xs">Snap to Grid</span>
+                      <span className="text-muted-foreground text-xs">Snap to Grid</span>
                     </label>
                     <p className="text-gray-500 text-xs">
                       Double-click any path to enter node edit mode.
@@ -432,7 +445,7 @@ const RightSidebar = ({
 
                   {/* Position & Size */}
                   <div>
-                    <h4 className="mb-2 font-semibold text-gray-600 text-xs">Position & Size</h4>
+                    <h4 className="mb-2 font-semibold text-muted-foreground text-xs">Position & Size</h4>
                     <div className="gap-2 grid grid-cols-2">
                       <div>
                         <label className="block mb-1 text-gray-500 text-xs">X:</label>
@@ -497,7 +510,7 @@ const RightSidebar = ({
                   {(selectedElement.type !== 'line' &&
                     selectedElement.type !== 'image') && (
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Fill Color:
                         </label>
                         <input
@@ -521,7 +534,7 @@ const RightSidebar = ({
                             }
                             className="w-4 h-4"
                           />
-                          <span className="text-gray-600 text-xs">Transparent Fill</span>
+                          <span className="text-muted-foreground text-xs">Transparent Fill</span>
                         </label>
                       </div>
                     )}
@@ -529,7 +542,7 @@ const RightSidebar = ({
                   {/* Radius / Corner Radius + Gradient */}
                   {selectedElement && selectedElement.type !== 'image' && (
                     <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-600 text-xs">Radius & Gradient</h4>
+                      <h4 className="font-semibold text-muted-foreground text-xs">Radius & Gradient</h4>
                       {/* Circle radius */}
                       {selectedElement.type === 'circle' && (
                         <div>
@@ -588,7 +601,7 @@ const RightSidebar = ({
                   {!isTextElement && (
                     <>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Stroke Color:
                         </label>
                         <input
@@ -601,7 +614,7 @@ const RightSidebar = ({
                         />
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Stroke Width: {selectedElement.strokeWidth || 0}px
                         </label>
                         <input
@@ -622,7 +635,7 @@ const RightSidebar = ({
 
                   {/* Opacity */}
                   <div>
-                    <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                    <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                       Opacity: {Math.round((selectedElement.opacity || 0) * 100)}%
                     </label>
                     <input
@@ -642,7 +655,7 @@ const RightSidebar = ({
 
                   {/* Rotation */}
                   <div>
-                    <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                    <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                       Rotation: {Math.round(selectedElement.angle || 0)}°
                     </label>
                     <input
@@ -659,7 +672,7 @@ const RightSidebar = ({
 
                   {/* Shadow */}
                   <div className="space-y-3">
-                    <h4 className="font-semibold text-gray-600 text-xs">Shadow</h4>
+                    <h4 className="font-semibold text-muted-foreground text-xs">Shadow</h4>
                     <div>
                       <label className="block mb-1 text-gray-500 text-xs">Shadow Color:</label>
                         <input
@@ -752,9 +765,9 @@ const RightSidebar = ({
                   {/* Text Properties */}
                   {isTextElement && (
                     <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-600 text-xs">Text Properties</h4>
+                      <h4 className="font-semibold text-muted-foreground text-xs">Text Properties</h4>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Text Content:
                         </label>
                         <textarea
@@ -767,7 +780,7 @@ const RightSidebar = ({
                         />
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Font Size: {selectedElement.fontSize}px
                         </label>
                         <input
@@ -784,7 +797,7 @@ const RightSidebar = ({
                         />
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Font Family:
                         </label>
                         <select
@@ -807,7 +820,7 @@ const RightSidebar = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Font Weight:
                         </label>
                         <select
@@ -831,7 +844,7 @@ const RightSidebar = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Font Style:
                         </label>
                         <select
@@ -849,7 +862,7 @@ const RightSidebar = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Text Align:
                         </label>
                         <div className="gap-2 grid grid-cols-4">
@@ -871,7 +884,7 @@ const RightSidebar = ({
                         </div>
                       </div>
                       <div>
-                        <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                           Text Decoration:
                         </label>
                         <div className="gap-2 grid grid-cols-4">
@@ -922,13 +935,13 @@ const RightSidebar = ({
                             }
                             className="w-4 h-4"
                           />
-                          <span className="font-semibold text-gray-600 text-xs">
+                          <span className="font-semibold text-muted-foreground text-xs">
                             Enable Text Wrapping
                           </span>
                         </label>
                         {selectedElement.width !== undefined && (
                           <div className="mt-2">
-                            <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                            <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                               Text Width: {selectedElement.width || 200}px
                             </label>
                             <input
@@ -952,7 +965,7 @@ const RightSidebar = ({
                   {/* Polygon Sides */}
                   {selectedElement.type === 'polygon' && (
                     <div>
-                      <label className="block mb-2 font-semibold text-gray-600 text-xs">
+                      <label className="block mb-2 font-semibold text-muted-foreground text-xs">
                         Sides: {selectedElement.points?.length || 6}
                       </label>
                       <input
@@ -976,7 +989,7 @@ const RightSidebar = ({
                   {/* Frame Customization */}
                   {selectedElement.type === 'frame' && (
                     <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-600 text-xs">Frame Properties</h4>
+                      <h4 className="font-semibold text-muted-foreground text-xs">Frame Properties</h4>
                       <div>
                         <label className="block mb-1 text-gray-500 text-xs">Border Color:</label>
                         <input
@@ -1100,7 +1113,7 @@ const RightSidebar = ({
                             }
                             className="w-4 h-4"
                           />
-                          <span className="text-gray-600 text-xs">Transparent Fill</span>
+                          <span className="text-muted-foreground text-xs">Transparent Fill</span>
                         </label>
                       </div>
                     </div>
@@ -1109,7 +1122,7 @@ const RightSidebar = ({
                   {/* Image Filters Placeholder */}
                   {selectedElement.type === 'image' && (
                     <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-600 text-xs">Image Filters</h4>
+                      <h4 className="font-semibold text-muted-foreground text-xs">Image Filters</h4>
                       <p className="text-gray-500 text-xs">
                         Use the Filters tab to adjust image properties
                       </p>
@@ -1195,7 +1208,7 @@ function GradientControls({ selectedElement, handleElementChange }) {
     <div>
       <label className="flex items-center gap-2">
         <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
-        <span className="font-semibold text-gray-600 text-xs">Use Gradient Fill</span>
+        <span className="font-semibold text-muted-foreground text-xs">Use Gradient Fill</span>
       </label>
       {enabled && (
         <div className="gap-2 grid grid-cols-2 mt-2">

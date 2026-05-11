@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { Square, Move, PenTool, Pencil, Eraser, Type, Image as ImageIcon } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Square, Move, PenTool, Pencil, Eraser, Type, Image as ImageIcon, ChevronLeft, ChevronRight, FileJson, Trash2, RefreshCw } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import {
   Sidebar,
   SidebarContent,
@@ -8,6 +9,7 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 // / Left sidebar component
 // Flow: Render tool buttons, shape grid, text/image upload, canvas settings.
 const LeftSidebar = ({
@@ -35,7 +37,22 @@ const LeftSidebar = ({
   setSelectedIds,
   syncElements,
   saveState,
+  loadSavedDiagram,
+  getSavedDiagramsList,
 }) => {
+  const [savedDiagrams, setSavedDiagrams] = useState([]);
+
+  useEffect(() => {
+    if (getSavedDiagramsList) {
+      setSavedDiagrams(getSavedDiagramsList());
+    }
+  }, [getSavedDiagramsList]);
+
+  const refreshDiagrams = () => {
+    if (getSavedDiagramsList) {
+      setSavedDiagrams(getSavedDiagramsList());
+    }
+  };
   const fileInputRef = useRef();
   const bgFileInputRef = useRef();
   const [customWidth, setCustomWidth] = useState(canvasPresets['Custom'].width);
@@ -74,12 +91,24 @@ const LeftSidebar = ({
   const [gradientTo, setGradientTo] = useState('#8b5cf6');
 
   return (
-    <Sidebar side="left" mobileOpen={showLeftSidebar} className="w-64 sm:w-72 md:w-60 lg:w-72">
-      <SidebarHeader>
+    <Sidebar 
+      side="left" 
+      mobileOpen={showLeftSidebar}
+    > 
+      <SidebarHeader className="flex flex-row items-center justify-between p-4 border-b">
         <div>
-          <p className="text-sm font-semibold">Tools</p>
-          <p className="text-xs text-muted-foreground">Add shapes, text, assets, and canvas settings</p>
+          <p className="text-sm font-semibold">Settings</p>
+          <p className="text-xs text-muted-foreground">Canvas & Grid configurations</p>
         </div>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={() => setShowLeftSidebar(!showLeftSidebar)}
+          className="absolute right-0 translate-x-full top-0  h-8 w-8 rounded-r-xl rounded-l-none border-l-0 shadow-lg z-[110] bg-white hover:bg-slate-50"
+          title={showLeftSidebar ? "Collapse Sidebar" : "Open Settings"}
+        > 
+          <ChevronLeft className={cn("h-5 w-5 transition-transform duration-300", !showLeftSidebar && "rotate-180")} />
+        </Button>
       </SidebarHeader>
       <SidebarContent className="space-y-6">
         {/* Debug Info */}
@@ -90,170 +119,11 @@ const LeftSidebar = ({
           </CardContent>
         </Card>
 
-        {/* Tools */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Tools</SidebarGroupLabel>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => {
-                setCurrentTool('select');
-                if (canvas) canvas.isDrawingMode = false;
-                setShowLeftSidebar(false);
-              }}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                currentTool === 'select'
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              title="Select Tool"
-            >
-              <Square className="w-5 h-5 mx-auto" />
-              <span className="text-xs mt-1 block">Select</span>
-            </button>
-            <button
-              onClick={() => {
-                setCurrentTool('pan');
-                if (canvas) canvas.isDrawingMode = false;
-                setShowLeftSidebar(false);
-              }}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                currentTool === 'pan'
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              title="Pan Tool"
-            >
-              <Move className="w-5 h-5 mx-auto" />
-              <span className="text-xs mt-1 block">Pan</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentTool('pen');
-                if (canvas) canvas.isDrawingMode = false;
-                setShowLeftSidebar(false);
-              }}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                currentTool === 'pen'
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              title="Pen Tool"
-            >
-              <PenTool className="w-5 h-5 mx-auto" />
-              <span className="text-xs mt-1 block">Pen</span>
-            </button>
-            <button
-              onClick={() => {
-                setCurrentTool('brush');
-                if (canvas) canvas.isDrawingMode = true;
-                setShowLeftSidebar(false);
-              }}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                currentTool === 'brush'
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              title="Brush Tool"
-            >
-              <Pencil className="w-5 h-5 mx-auto" />
-              <span className="text-xs mt-1 block">Brush</span>
-            </button>
-            <button
-              onClick={() => {
-                setCurrentTool('eraser');
-                if (canvas) canvas.isDrawingMode = true;
-                setShowLeftSidebar(false);
-              }}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                currentTool === 'eraser'
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              title="Eraser Tool"
-            >
-              <Eraser className="w-5 h-5 mx-auto" />
-              <span className="text-xs mt-1 block">Eraser</span>
-            </button>
-          </div>
-        </SidebarGroup>
-
-        {/* Shapes */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Shapes</SidebarGroupLabel>
-          <div className="grid grid-cols-4 gap-2">
-            {shapes.map((shape) => (
-              <button
-                key={shape.type}
-                onClick={() => {
-                  setCurrentTool(shape.type);
-                  if (canvas) canvas.isDrawingMode = false;
-                  setShowLeftSidebar(false);
-                }}
-                className={`p-3 rounded-lg border transition-all ${
-                  currentTool === shape.type
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-400 hover:bg-blue-50'
-                }`}
-                title={shape.label}
-              >
-                <span className="text-2xl">{shape.icon}</span>
-              </button>
-            ))}
-          </div>
-        </SidebarGroup>
-
-        {/* Text */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Text</SidebarGroupLabel>
-          <button
-            onClick={() => {
-              setCurrentTool('text');
-              if (canvas) canvas.isDrawingMode = false;
-              setShowLeftSidebar(false);
-            }}
-            className="w-full p-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center gap-2"
-          >
-            <Type className="w-5 h-5" />
-            Text Tool
-          </button>
-          <div className="mt-4">
-            <label className="text-xs text-gray-600 block mb-1">Text Color:</label>
-            <input
-              type="color"
-              value={textColor}
-              onChange={(e) => setTextColor(e.target.value)}
-              className="w-full h-8 border border-gray-300 rounded-lg cursor-pointer"
-            />
-          </div>
-        </SidebarGroup>
-
-        {/* Images */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Images</SidebarGroupLabel>
-          <label className="block p-8 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all">
-            <ImageIcon className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-            <p className="text-sm text-gray-600">Upload Image</p>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => {
-                handleImageUpload(e);
-                setShowLeftSidebar(false);
-              }}
-              className="hidden"
-            />
-          </label>
-        </SidebarGroup>
-
-        {/* Canvas Settings */}
         <SidebarGroup>
           <SidebarGroupLabel>Canvas</SidebarGroupLabel>
           <div className="space-y-3">
             <div>
-              <label className="text-xs text-gray-600 block mb-1">Template</label>
+              <label className="text-xs text-muted-foreground block mb-1">Template</label>
               <select
                 value={selectedPreset}
                 onChange={(e) => handlePresetChange(e.target.value)}
@@ -268,7 +138,7 @@ const LeftSidebar = ({
             </div>
             {selectedPreset === 'Custom' && (
               <div className="mb-4">
-                <h4 className="text-xs font-semibold text-gray-600 mb-2">Custom Dimensions</h4>
+                <h4 className="text-xs font-semibold text-muted-foreground mb-2">Custom Dimensions</h4>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Width (px):</label>
@@ -304,7 +174,7 @@ const LeftSidebar = ({
               </div>
             )}
             <div>
-              <label className="text-xs text-gray-600 block mb-1">Background Color:</label>
+              <label className="text-xs text-muted-foreground block mb-1">Background Color:</label>
               <input
                 type="color"
                 value={background.type === 'color' ? background.value : '#ffffff'}
@@ -315,7 +185,7 @@ const LeftSidebar = ({
             <div>
               <label className="block p-4 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all">
                 <ImageIcon className="w-6 h-6 mx-auto text-gray-400 mb-1" />
-                <p className="text-xs text-gray-600">Upload Background Image</p>
+                <p className="text-xs text-muted-foreground">Upload Background Image</p>
                 <input
                   ref={bgFileInputRef}
                   type="file"
@@ -331,7 +201,6 @@ const LeftSidebar = ({
           </div>
         </SidebarGroup>
 
-        {/* Grid Settings */}
         <SidebarGroup>
           <SidebarGroupLabel>Grid</SidebarGroupLabel>
           <div className="space-y-2">
@@ -346,7 +215,7 @@ const LeftSidebar = ({
             </label>
             {showGrid && (
               <div>
-                <label className="text-xs text-gray-600 block mb-1">Grid Size: {gridSize}px</label>
+                <label className="text-xs text-muted-foreground block mb-1">Grid Size: {gridSize}px</label>
                 <input
                   type="range"
                   min="10"
@@ -358,6 +227,38 @@ const LeftSidebar = ({
                 />
               </div>
             )}
+          </div>
+        </SidebarGroup>
+
+        {/* Workspace Diagrams */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="flex items-center justify-between">
+            <span>Workspace Diagrams</span>
+            <Button variant="ghost" size="icon" className="h-4 w-4" onClick={refreshDiagrams}>
+              <RefreshCw className="h-3 w-3" />
+            </Button>
+          </SidebarGroupLabel>
+          <div className="space-y-1 mt-2">
+            {savedDiagrams.length === 0 ? (
+              <p className="text-xs text-muted-foreground px-2 py-1">No saved diagrams</p>
+            ) : (
+              savedDiagrams.map((name) => (
+                <div key={name} className="flex items-center gap-1 px-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex-1 justify-start gap-2 h-8 text-xs overflow-hidden text-ellipsis whitespace-nowrap"
+                    onClick={() => loadSavedDiagram(name)}
+                  >
+                    <FileJson className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                    <span className="truncate">{name}</span>
+                  </Button>
+                </div>
+              ))
+            )}
+            <div className="pt-2 px-2">
+               <p className="text-[10px] text-muted-foreground italic">Diagrams are saved in browser's local storage. Export JSON to save to your local machine.</p>
+            </div>
           </div>
         </SidebarGroup>
       </SidebarContent>

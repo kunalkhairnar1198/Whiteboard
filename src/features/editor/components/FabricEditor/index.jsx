@@ -25,7 +25,13 @@ import {
 } from '@/features/editor/lib/canvasUtils';
 import { getNextElementCounterFromState } from '@/features/editor/lib/editorState';
 import { moveLayerInOrder } from '@/features/editor/lib/layerOrder';
-import { loadCanvasState, persistCanvasState } from '@/features/editor/lib/persistence';
+import { 
+  loadCanvasState, 
+  persistCanvasState, 
+  exportToJson, 
+  getSavedDiagramsList,
+  deleteSavedDiagram 
+} from '@/features/editor/lib/persistence';
 import Header from '@/features/editor/components/sidebar/Header';
 import LeftSidebar from '@/features/editor/components/sidebar/LeftSidebar';
 import CanvasArea from '@/features/editor/components/Canvas';
@@ -36,6 +42,7 @@ import { usePenTool } from '@/features/editor/tools/pen/usePenTool';
 import { PenToolOverlay } from '@/features/editor/tools/pen/PenToolOverlay';
 import { usePathRenderer } from '@/features/editor/tools/pen/usePathRenderer';
 import { v4 as uuidv4 } from 'uuid';
+import EditorToolbar from '@/features/editor/components/Toolbar/EditorToolbar';
 
 
 /**
@@ -45,7 +52,7 @@ import { v4 as uuidv4 } from 'uuid';
  * - Comments explain the flows where saving state and rendering matter
  */
 
-const FabricEditor = () => {
+const FabricEditor = ({ initialDiagramName, onBack }) => {
   // -------------------------
   // States
   // -------------------------
@@ -53,8 +60,8 @@ const FabricEditor = () => {
   const [elements, setElements] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [canvasSize, setCanvasSize] = useState({
-    width: window.innerWidth < 640 ? 300 : window.innerWidth < 1024 ? 600 : 800,
-    height: window.innerWidth < 640 ? 200 : window.innerWidth < 1024 ? 400 : 600,
+    width: window.innerWidth,
+    height: window.innerHeight,
   });
   const [zoom, setZoom] = useState(1);
   const [background, setBackground] = useState({ type: 'color', value: '#ffffff' });
@@ -70,7 +77,7 @@ const FabricEditor = () => {
   const [penShadowOffset, setPenShadowOffset] = useState(0);
   const [eraserSize, setEraserSize] = useState(10);
   const [textColor, setTextColor] = useState('#1f2937');
-  const [templateName, setTemplateName] = useState('Untitled Template');
+  const [templateName, setTemplateName] = useState(initialDiagramName || 'Untitled Template');
   const [elementCounter, setElementCounter] = useState(0);
   const [showLayers, setShowLayers] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -79,6 +86,8 @@ const FabricEditor = () => {
   const [showRightSidebar, setShowRightSidebar] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState('Custom');
   const [editingPathId, setEditingPathId] = useState(null);
+  const [toolbarOrientation, setToolbarOrientation] = useState('vertical');
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
 
 
   // -------------------------
@@ -122,6 +131,31 @@ const FabricEditor = () => {
   }, [saveState]);
 
   const isTextObject = useCallback((obj) => obj?.type === 'textbox' || obj?.type === 'i-text', []);
+
+  // -------------------------
+  // Responsive Canvas Size
+  // -------------------------
+  useEffect(() => {
+    const handleResize = () => {
+      setCanvasSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+      if (canvas.current) {
+        canvas.current.setDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+        canvas.current.requestRenderAll();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Initial call to ensure correct size after first mount
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const syncElements = useCallback(() => {
     if (!canvas.current) return;
@@ -744,6 +778,41 @@ const FabricEditor = () => {
     }
   };
 
+  const saveWorkspace = () => {
+    if (!canvas.current) return;
+    const json = canvas.current.toObject(['data', 'id', 'name']);
+    // Persist to local storage under the template name
+    persistCanvasState(json, templateName);
+    // Also offer a JSON download
+    exportToJson(json, templateName);
+  };
+
+  const loadWorkspaceFromFile = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const json = JSON.parse(event.target.result);
+        await restoreCanvasState(json);
+        setTemplateName(file.name.replace('.json', ''));
+      } catch (err) {
+        console.error('Failed to load workspace file:', err);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  const loadSavedDiagram = async (name) => {
+    const state = loadCanvasState(name);
+    if (state) {
+      await restoreCanvasState(state);
+      setTemplateName(name);
+    }
+  };
+
+
   // -------------------------
   // Derived selected element reference
   // -------------------------
@@ -1000,7 +1069,7 @@ const FabricEditor = () => {
   useEffect(() => {
     if (!canvas.current || !isCanvasReady) return;
 
-    const savedState = loadCanvasState();
+    const savedState = loadCanvasState(initialDiagramName || 'current');
     if (savedState) {
       isLoadingRef.current = true;
       canvas.current.loadFromJSON(savedState).then(() => {
@@ -1256,13 +1325,27 @@ const FabricEditor = () => {
         return;
       }
 
-      if (currentTool === 'pan' || evt.button === 2) {
+      if (currentTool === 'pan' || isSpacePressed || evt.button === 2) {
         setIsPanning(true);
         canvas.current.selection = false;
         lastPos.current = { x: evt.clientX, y: evt.clientY };
       }
     };
     const handleMouseMove = (opt) => {
+      if (isPanning) {
+        const evt = opt.e;
+        const vpt = canvas.current.viewportTransform;
+        const deltaX = evt.clientX - lastPos.current.x;
+        const deltaY = evt.clientY - lastPos.current.y;
+        
+        vpt[4] += deltaX;
+        vpt[5] += deltaY;
+        
+        canvas.current.requestRenderAll();
+        lastPos.current = { x: evt.clientX, y: evt.clientY };
+        return;
+      }
+
       if (currentTool === 'eraser' && canvas.current.isErasing) {
         const target = opt.target;
         if (target && !target.excludeFromExport && target.type !== 'canvas') {
@@ -1290,19 +1373,6 @@ const FabricEditor = () => {
         });
         canvas.current.requestRenderAll();
         return;
-      }
-
-      if (isPanning && currentTool === 'pan') {
-        const evt = opt.e;
-        const vpt = canvas.current.viewportTransform;
-        const deltaX = (evt.clientX - lastPos.current.x) / zoom;
-        const deltaY = (evt.clientY - lastPos.current.y) / zoom;
-        const maxPanX = canvasSize.width * 0.5;
-        const maxPanY = canvasSize.height * 0.5;
-        vpt[4] = Math.max(-maxPanX, Math.min(maxPanX, vpt[4] + deltaX));
-        vpt[5] = Math.max(-maxPanY, Math.min(maxPanY, vpt[5] + deltaY));
-        canvas.current.requestRenderAll();
-        lastPos.current = { x: evt.clientX, y: evt.clientY };
       }
     };
     const handleMouseUp = (opt) => {
@@ -1408,6 +1478,19 @@ const FabricEditor = () => {
           syncElements();
       }
     };
+
+    const handleMouseWheel = (opt) => {
+      const delta = opt.e.deltaY;
+      let zoomValue = canvas.current.getZoom();
+      zoomValue *= 0.999 ** delta;
+      if (zoomValue > 5) zoomValue = 5;
+      if (zoomValue < 0.1) zoomValue = 0.1;
+      canvas.current.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoomValue);
+      opt.e.preventDefault();
+      opt.e.stopPropagation();
+      setZoom(zoomValue);
+    };
+
     const handlePathCreated = (opt) => {
       const path = opt.path;
       const id = `element-${elementCounter}`;
@@ -1473,6 +1556,7 @@ const FabricEditor = () => {
     }
 
     canvas.current.on('mouse:dblclick', handleMouseDblClick);
+    canvas.current.on('mouse:wheel', handleMouseWheel);
     canvas.current.on('path:created', handlePathCreated);
     canvas.current.on('selection:created', handleSelection);
     canvas.current.on('selection:updated', handleSelection);
@@ -1492,6 +1576,7 @@ const FabricEditor = () => {
       canvas.current.off('mouse:move', penTool.handleMouseMove);
       canvas.current.off('mouse:up', penTool.handleMouseUp);
       canvas.current.off('mouse:dblclick', handleMouseDblClick);
+      canvas.current.off('mouse:wheel', handleMouseWheel);
       canvas.current.off('path:created', handlePathCreated);
       canvas.current.off('selection:created', handleSelection);
       canvas.current.off('selection:updated', handleSelection);
@@ -1504,6 +1589,7 @@ const FabricEditor = () => {
   }, [
     currentTool,
     isPanning,
+    isSpacePressed,
     penColor,
     penWidth,
     penOpacity,
@@ -1629,13 +1715,21 @@ const FabricEditor = () => {
         setCurrentTool('select');
       } else if (e.key.toLowerCase() === 'p') {
         setCurrentTool('pen');
-      } else if (ctrl && e.shiftKey && (e.key === "'" || e.key === '"')) {
-        e.preventDefault();
-        penTool.toggleSnap();
+      } else if (e.key === ' ') {
+        const activeObject = canvas.current?.getActiveObject();
+        if (!activeObject?.isEditing) {
+          e.preventDefault();
+          setIsSpacePressed(true);
+          if (canvas.current) canvas.current.defaultCursor = 'grab';
+        }
       }
     };
 
     const handleKeyUp = (e) => {
+      if (e.key === ' ') {
+        setIsSpacePressed(false);
+        if (canvas.current) canvas.current.defaultCursor = 'default';
+      }
       modifierKeysRef.current = {
         altKey: e.altKey,
         shiftKey: e.shiftKey,
@@ -1672,7 +1766,7 @@ const FabricEditor = () => {
   // -------------------------
   return (
     <SidebarProvider className="bg-background h-screen font-sans">
-      <div className="flex flex-col bg-background w-full h-screen">
+      <div className="flex flex-col w-full h-screen">
         <Header
           templateName={templateName}
           setTemplateName={setTemplateName}
@@ -1685,10 +1779,17 @@ const FabricEditor = () => {
           canUndo={canUndo}
           canRedo={canRedo}
           exportCanvas={exportCanvas}
+          saveWorkspace={saveWorkspace}
+          loadWorkspaceFromFile={loadWorkspaceFromFile}
           setShowLeftSidebar={setShowLeftSidebar}
           setShowRightSidebar={setShowRightSidebar}
+          onBack={onBack}
+          toolbarOrientation={toolbarOrientation}
+          setToolbarOrientation={setToolbarOrientation}
+          showLeftSidebar={showLeftSidebar}
+          showRightSidebar={showRightSidebar}
         />
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden relative">
           <LeftSidebar
             currentTool={currentTool}
             setCurrentTool={setCurrentTool}
@@ -1714,8 +1815,17 @@ const FabricEditor = () => {
             setSelectedIds={setSelectedIds}
             syncElements={syncElements}
             saveState={safeSaveState}
+            loadSavedDiagram={loadSavedDiagram}
+            getSavedDiagramsList={getSavedDiagramsList}
           />
-          <SidebarInset className="min-w-0">
+          <SidebarInset className="min-w-0  relative">
+            <EditorToolbar 
+              currentTool={currentTool}
+              setCurrentTool={setCurrentTool}
+              canvas={isCanvasReady ? canvas.current : null}
+              onImageUpload={handleImageUpload}
+              orientation={toolbarOrientation}
+            />
             <CanvasArea canvasRef={canvasRef} canvasSize={canvasSize} cursorStyle={cursorStyle}>
               {currentTool === 'pen' && (
                 <PenToolOverlay
