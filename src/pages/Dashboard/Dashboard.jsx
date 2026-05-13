@@ -37,7 +37,7 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
   );
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black text-white p-6 md:p-12">
+    <div className="min-h-screen bg-gradient-to-br from-dashboard-from to-dashboard-to text-foreground p-6 md:p-12 transition-colors duration-500">
       <div className="max-w-7xl mx-auto space-y-12">
         
         {/* Header Section */}
@@ -46,7 +46,7 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
             <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent tracking-tight">
               Whiteboard Studio
             </h1>
-            <p className="text-slate-400 text-lg md:text-xl font-light">
+            <p className="text-muted-foreground text-lg md:text-xl font-light">
               Design, collaborate, and bring your ideas to life.
             </p>
           </div>
@@ -62,10 +62,10 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
 
         {/* Search & Filters */}
         <div className="relative max-w-2xl">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
           <Input 
             placeholder="Search your workspaces..." 
-            className="pl-12 bg-slate-800/50 border-slate-700/50 text-white h-14 rounded-2xl focus:ring-2 focus:ring-blue-500/50 transition-all backdrop-blur-xl"
+            className="pl-12 bg-dashboard-card border-border/50 text-foreground h-14 rounded-2xl focus:ring-2 focus:ring-primary/50 transition-all backdrop-blur-xl"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -73,9 +73,9 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
 
         {/* Content Section */}
         <div className="space-y-8">
-          <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-            <Clock className="w-5 h-5 text-blue-400" />
-            <h2 className="text-2xl font-semibold text-slate-100">Recent Workspaces</h2>
+          <div className="flex items-center gap-3 border-b border-border/50 pb-4">
+            <Clock className="w-5 h-5 text-primary" />
+            <h2 className="text-2xl font-semibold">Recent Workspaces</h2>
           </div>
 
           {filteredDiagrams.length === 0 ? (
@@ -95,24 +95,24 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
                 <Card 
                   key={name}
                   onClick={() => onSelectWorkspace(name)}
-                  className="group relative bg-slate-900/50 border-slate-800 hover:border-blue-500/50 transition-all cursor-pointer overflow-hidden backdrop-blur-sm"
+                  className="group relative bg-dashboard-card border-border/50 hover:border-primary/50 hover:bg-dashboard-card-hover transition-all cursor-pointer overflow-hidden backdrop-blur-md shadow-lg"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <CardHeader className="relative z-10">
                     <div className="flex justify-between items-start mb-4">
-                      <div className="p-3 bg-blue-500/20 rounded-xl">
-                        <Layout className="w-6 h-6 text-blue-400" />
+                      <div className="p-3 bg-primary/20 rounded-xl">
+                        <Layout className="w-6 h-6 text-primary" />
                       </div>
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="text-slate-500 hover:text-red-400 hover:bg-red-400/10 transition-colors"
+                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
                         onClick={(e) => handleDelete(e, name)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
-                    <CardTitle className="text-slate-100 group-hover:text-blue-400 transition-colors">
+                    <CardTitle className="group-hover:text-primary transition-colors">
                       {name}
                     </CardTitle>
                     <CardDescription className="text-slate-500 line-clamp-1">
@@ -135,32 +135,32 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
         </div>
 
         {/* Footer / Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-slate-800">
-          <div className="flex items-center gap-4 p-6 bg-slate-900/30 rounded-2xl border border-slate-800/50">
-            <div className="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-border/50">
+          <div className="flex items-center gap-4 p-6 bg-dashboard-card rounded-2xl border border-border/50">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary">
               <Layers className="w-6 h-6" />
             </div>
             <div>
               <p className="text-2xl font-bold">{diagrams.length}</p>
-              <p className="text-slate-500 text-sm">Total Workspaces</p>
+              <p className="text-muted-foreground text-sm">Total Workspaces</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 p-6 bg-slate-900/30 rounded-2xl border border-slate-800/50">
-            <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
+          <div className="flex items-center gap-4 p-6 bg-dashboard-card rounded-2xl border border-border/50">
+            <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center text-accent-foreground">
               <Clock className="w-6 h-6" />
             </div>
             <div>
               <p className="text-2xl font-bold">24h</p>
-              <p className="text-slate-500 text-sm">Avg. Active Time</p>
+              <p className="text-muted-foreground text-sm">Avg. Active Time</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 p-6 bg-slate-900/30 rounded-2xl border border-slate-800/50">
-            <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center text-amber-400">
+          <div className="flex items-center gap-4 p-6 bg-dashboard-card rounded-2xl border border-border/50">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary">
               <Plus className="w-6 h-6" />
             </div>
             <div>
               <p className="text-2xl font-bold">Syncing</p>
-              <p className="text-slate-500 text-sm">Auto-save Enabled</p>
+              <p className="text-muted-foreground text-sm">Auto-save Enabled</p>
             </div>
           </div>
         </div>

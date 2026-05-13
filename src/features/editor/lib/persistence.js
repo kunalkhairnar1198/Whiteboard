@@ -3,25 +3,35 @@ const STORAGE_KEY = 'fabric_editor_state';
 const DIAGRAMS_LIST_KEY = 'fabric_editor_diagrams_list';
 
 /**
- * Persists the canvas state to local storage.
- * @param {Object|string} state - The JSON object or string representing the canvas state.
- * @param {string} name - The name of the diagram.
+ * Persists the canvas state to local storage (synchronous; stringifies
+ * on the main thread). Phase G adds `writeRawState` below for the
+ * off-thread path used by PersistenceService.
  */
 export const persistCanvasState = (state, name = 'current') => {
   try {
     const serialized = typeof state === 'string' ? state : JSON.stringify(state);
-    localStorage.setItem(`${STORAGE_KEY}_${name}`, serialized);
-    
-    // Update diagrams list if it's a named diagram
+    writeRawState(serialized, name);
+  } catch (error) {
+    console.error('Failed to persist canvas state to local storage:', error);
+  }
+};
+
+/**
+ * Writes an already-serialized canvas state string to local storage
+ * and maintains the diagrams index. Used by PersistenceService after
+ * the worker returns its result.
+ */
+export const writeRawState = (rawString, name = 'current') => {
+  try {
+    localStorage.setItem(`${STORAGE_KEY}_${name}`, rawString);
     if (name !== 'current') {
       const list = getSavedDiagramsList();
       if (!list.includes(name)) {
-        const newList = [...list, name];
-        localStorage.setItem(DIAGRAMS_LIST_KEY, JSON.stringify(newList));
+        localStorage.setItem(DIAGRAMS_LIST_KEY, JSON.stringify([...list, name]));
       }
     }
   } catch (error) {
-    console.error('Failed to persist canvas state to local storage:', error);
+    console.error('Failed to write canvas state to local storage:', error);
   }
 };
 

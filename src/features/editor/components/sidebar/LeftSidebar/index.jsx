@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { memo, useRef, useState, useEffect } from 'react';
 import { Square, Move, PenTool, Pencil, Eraser, Type, Image as ImageIcon, ChevronLeft, ChevronRight, FileJson, Trash2, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import useLayers from '@/features/editor/hooks/useLayers';
 // / Left sidebar component
 // Flow: Render tool buttons, shape grid, text/image upload, canvas settings.
 const LeftSidebar = ({
@@ -18,8 +19,6 @@ const LeftSidebar = ({
   canvas,
   showLeftSidebar,
   setShowLeftSidebar,
-  textColor,
-  setTextColor,
   handleImageUpload,
   background,
   setBackground,
@@ -31,15 +30,11 @@ const LeftSidebar = ({
   selectedPreset,
   handlePresetChange,
   canvasPresets,
-  elements,
-  elementCounter,
-  setElementCounter,
-  setSelectedIds,
-  syncElements,
   saveState,
   loadSavedDiagram,
   getSavedDiagramsList,
 }) => {
+  const elements = useLayers();
   const [savedDiagrams, setSavedDiagrams] = useState([]);
 
   useEffect(() => {
@@ -266,4 +261,4 @@ const LeftSidebar = ({
   );
 };
 
-export default LeftSidebar;
+export default memo(LeftSidebar);
