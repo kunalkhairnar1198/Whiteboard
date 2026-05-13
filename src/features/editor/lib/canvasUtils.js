@@ -9,10 +9,11 @@ import {
   IText,
   Image as FabricImage,
   Group,
+  Pattern,
   PatternBrush,
   Point,
-} from 'fabric';
-import * as fabric from 'fabric';
+  fabric,
+} from '@/features/editor/utils/fabricFactory';
 
 export const SHAPE_TOOLS = ['rectangle', 'circle', 'triangle', 'star', 'arrow', 'line', 'polygon', 'frame', 'pen'];
 
@@ -68,9 +69,42 @@ export const setCanvasBackgroundImage = async (canvas, imageUrl, canvasSize) => 
 };
 
 /**
- * Draw grid
+ * Build a small offscreen canvas containing one grid cell's stroke
+ * pattern. Used as the source of a repeating Pattern fill.
  */
-export const drawGrid = (canvas, showGrid, gridSize, canvasSize, gridGroup) => {
+const createGridPatternSource = (size, color = '#e5e7eb') => {
+  const c = document.createElement('canvas');
+  const dpr = window.devicePixelRatio || 1;
+  c.width = Math.max(1, Math.round(size * dpr));
+  c.height = Math.max(1, Math.round(size * dpr));
+  c.style.width = `${size}px`;
+  c.style.height = `${size}px`;
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1;
+  // Sub-pixel offset for crisp 1px lines on the right and bottom edges
+  // of the cell — when tiled this yields a clean grid.
+  ctx.beginPath();
+  ctx.moveTo(size - 0.5, 0);
+  ctx.lineTo(size - 0.5, size);
+  ctx.moveTo(0, size - 0.5);
+  ctx.lineTo(size, size - 0.5);
+  ctx.stroke();
+  return c;
+};
+
+/**
+ * Draw grid — Phase I: replaces the 2000-Line+Group rebuild with a
+ * single Rect filled with a tiled Pattern. Toggling visibility costs
+ * one set+render; resizing the canvas costs nothing (the Rect covers
+ * a large area). Changing gridSize regenerates the small pattern
+ * source canvas only.
+ *
+ * Signature unchanged for caller compatibility: `gridGroup.current`
+ * still receives the host Rect.
+ */
+export const drawGrid = (canvas, showGrid, gridSize, _canvasSize, gridGroup) => {
   if (!canvas) return;
 
   if (gridGroup.current) {
@@ -78,57 +112,46 @@ export const drawGrid = (canvas, showGrid, gridSize, canvasSize, gridGroup) => {
     gridGroup.current = null;
   }
 
-  if (!showGrid) return;
-
-  const lines = [];
-  const start = -5000;
-  const end = 5000;
-
-  for (let i = start; i <= end; i += gridSize) {
-    lines.push(
-      new Line([i, start, i, end], {
-        stroke: '#e5e7eb',
-        strokeWidth: 1,
-        selectable: false,
-        evented: false,
-      }),
-    );
+  if (!showGrid) {
+    canvas.requestRenderAll?.() || canvas.renderAll();
+    return;
   }
 
-  for (let i = start; i <= end; i += gridSize) {
-    lines.push(
-      new Line([start, i, end, i], {
-        stroke: '#e5e7eb',
-        strokeWidth: 1,
-        selectable: false,
-        evented: false,
-      }),
-    );
-  }
+  const pattern = new Pattern({
+    source: createGridPatternSource(gridSize),
+    repeat: 'repeat',
+  });
 
-  gridGroup.current = new Group(lines, { selectable: false, evented: false });
-  canvas.add(gridGroup.current);
-  // Prefer canvas-level API to ensure compatibility across Fabric builds
-  if (typeof canvas.sendToBack === 'function') {
-    canvas.sendToBack(gridGroup.current);
-  } else if (typeof gridGroup.current.sendToBack === 'function') {
-    // fallback to object-level API if available
-    gridGroup.current.sendToBack();
-  } else if (typeof canvas.insertAt === 'function') {
-    // another compatible API some builds expose
-    try {
-      canvas.insertAt(gridGroup.current, 0);
-    } catch (err) {
-      /* ignore */
-    }
+  // Cover a large area so pan within reasonable bounds always sees grid.
+  const extent = 20000;
+  const rect = new Rect({
+    left: -extent / 2,
+    top: -extent / 2,
+    width: extent,
+    height: extent,
+    fill: pattern,
+    selectable: false,
+    evented: false,
+    hoverCursor: 'default',
+    excludeFromExport: true,
+    objectCaching: false,
+  });
+
+  gridGroup.current = rect;
+  canvas.add(rect);
+
+  // Send to back so it sits below user content.
+  if (typeof canvas.sendObjectToBack === 'function') {
+    canvas.sendObjectToBack(rect);
+  } else if (typeof canvas.sendToBack === 'function') {
+    canvas.sendToBack(rect);
   } else {
-    // last-resort: reorder objects array so gridGroup is at index 0
     try {
       const objs = canvas.getObjects();
-      const idx = objs.indexOf(gridGroup.current);
+      const idx = objs.indexOf(rect);
       if (idx > -1) {
         objs.splice(idx, 1);
-        objs.unshift(gridGroup.current);
+        objs.unshift(rect);
       }
     } catch (err) {
       /* ignore */
