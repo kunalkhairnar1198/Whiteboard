@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { 
   MousePointer2, 
@@ -84,7 +84,7 @@ const EditorToolbar = ({
   const handleToolClick = (toolId) => {
     setCurrentTool(toolId);
     if (canvas) {
-      canvas.isDrawingMode = toolId === 'brush';
+      canvas.isDrawingMode = (toolId === 'brush' || toolId === 'eraser');
     }
   };
 
@@ -167,4 +167,4 @@ const EditorToolbar = ({
   );
 };
 
-export default memo(EditorToolbar);
+export default EditorToolbar;

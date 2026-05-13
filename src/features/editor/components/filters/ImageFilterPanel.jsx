@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { fabric } from '@/features/editor/utils/fabricFactory';
+import * as fabric from 'fabric';
 import { FILTER_INDICES } from '@/features/editor/constants/filterIndices';
 
 const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import {
   Download,
   PanelLeftOpen,
@@ -11,7 +11,6 @@ import {
   Save,
   Upload,
   ChevronLeft,
-  Trash2,
 } from 'lucide-react';
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
@@ -44,7 +43,6 @@ const Header = ({
   showLeftSidebar,
   showRightSidebar,
   onBack,
-  clearCanvas,
 }) => {
   const fileInputRef = useRef(null);
   const toggleOrientation = () => {
@@ -124,13 +122,10 @@ const Header = ({
           <Download className="w-4 h-4" />
           Export PNG
         </Button>
-        <Button variant="destructive" size="icon" onClick={clearCanvas} title="Clear Canvas (Flush)">
-          <Trash2 className="w-5 h-5" />
-        </Button>
         </div>
       </Card>
     </header>
   );
 };
 
-export default memo(Header);
+export default Header;

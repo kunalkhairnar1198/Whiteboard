@@ -1,28 +1,49 @@
-import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCanUndo, selectCanRedo } from '@/store/selectors';
+import { useCallback, useRef, useState } from 'react';
 
-/**
- * useHistory — thin wrapper around engine.history. The buffer lives
- * in HistoryManager (no React state, no Redux state). Only the
- * boolean flags are mirrored into Redux, and consumers subscribe to
- * them here.
- */
-const useHistory = (engine) => {
-  const canUndo = useSelector(selectCanUndo);
-  const canRedo = useSelector(selectCanRedo);
+import { createHistoryStore } from '@/features/editor/lib/historyStore';
+
+const useHistory = (maxHistory = 50) => {
+  const storeRef = useRef(null);
+  if (!storeRef.current) {
+    storeRef.current = createHistoryStore(maxHistory);
+  }
+
+  const [canUndoState, setCanUndoState] = useState(false);
+  const [canRedoState, setCanRedoState] = useState(false);
+
+  const syncFlags = useCallback(() => {
+    const { canUndo, canRedo } = storeRef.current.getFlags();
+    setCanUndoState((prev) => (prev === canUndo ? prev : canUndo));
+    setCanRedoState((prev) => (prev === canRedo ? prev : canRedo));
+  }, []);
 
   const saveState = useCallback(
     (state) => {
-      engine?.history?.push(state);
+      storeRef.current.saveState(state);
+      syncFlags();
     },
-    [engine],
+    [syncFlags],
   );
 
-  const undo = useCallback(() => engine?.history?.undo() ?? null, [engine]);
-  const redo = useCallback(() => engine?.history?.redo() ?? null, [engine]);
+  const undo = useCallback(() => {
+    const state = storeRef.current.undo();
+    syncFlags();
+    return state;
+  }, [syncFlags]);
 
-  return { saveState, undo, redo, canUndo, canRedo };
+  const redo = useCallback(() => {
+    const state = storeRef.current.redo();
+    syncFlags();
+    return state;
+  }, [syncFlags]);
+
+  return {
+    saveState,
+    undo,
+    redo,
+    canUndo: canUndoState,
+    canRedo: canRedoState,
+  };
 };
 
 export default useHistory;

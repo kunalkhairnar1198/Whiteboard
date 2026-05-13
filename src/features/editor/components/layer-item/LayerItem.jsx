@@ -1,26 +1,21 @@
-import React, { useState, useRef, useEffect, memo, useCallback } from 'react';
+import React from 'react';
 import { Eye, EyeOff, Lock, Unlock, ArrowUp, ArrowDown, Trash2 } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-/**
- * LayerItem — single row in the layer panel.
- *
- * Memoized: only re-renders when its element projection, isSelected
- * flag, or any of the callback props change. Callbacks are expected
- * to be stable across renders (declared with useCallback in the
- * parent) so memoization actually saves work.
- */
+// Reusable layer item
+// Flow: Render layer info and buttons, call callbacks on clicks.
+import { useState, useRef, useEffect } from 'react';
+
 const LayerItem = ({
   element,
-  isSelected,
+  selectedIds,
   toggleLayerVisibility,
   toggleLayerLock,
   moveLayer,
   deleteElement,
   onSelect,
   onRename,
-  isOverlay = false,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [nameValue, setNameValue] = useState(element.name || element.type);
@@ -29,47 +24,15 @@ const LayerItem = ({
   useEffect(() => {
     setNameValue(element.name || element.type);
   }, [element.name, element.type]);
-
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: element.id,
-    disabled: isOverlay,
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.3 : 1,
-    touchAction: 'none',
-    zIndex: isOverlay ? 1000 : undefined,
-  };
-
-  const handleSelect = useCallback(() => onSelect?.(element.id), [onSelect, element.id]);
-  const handleToggleVisibility = useCallback(
-    (e) => { e.stopPropagation(); toggleLayerVisibility?.(element.id); },
-    [toggleLayerVisibility, element.id],
-  );
-  const handleToggleLock = useCallback(
-    (e) => { e.stopPropagation(); toggleLayerLock?.(element.id); },
-    [toggleLayerLock, element.id],
-  );
-  const handleMoveUp = useCallback(
-    (e) => { e.stopPropagation(); moveLayer?.(element.id, 'up'); },
-    [moveLayer, element.id],
-  );
-  const handleMoveDown = useCallback(
-    (e) => { e.stopPropagation(); moveLayer?.(element.id, 'down'); },
-    [moveLayer, element.id],
-  );
-  const handleDelete = useCallback(
-    (e) => { e.stopPropagation(); deleteElement?.(element.id); },
-    [deleteElement, element.id],
-  );
-
-  const commitRename = () => {
-    setIsEditing(false);
-    if (nameValue !== (element.name || element.type)) {
-      onRename?.(element.id, nameValue);
-    }
+    opacity: isDragging ? 0.9 : 1,
+    touchAction: 'manipulation',
   };
 
   return (
@@ -78,13 +41,13 @@ const LayerItem = ({
       style={style}
       {...attributes}
       {...listeners}
+      key={element.id}
       className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all cursor-pointer ${
-        isOverlay ? 'border-blue-600 bg-white shadow-xl scale-105' :
-        isSelected
+        selectedIds.includes(element.id)
           ? 'border-blue-500 bg-blue-50'
-          : 'border-gray-200 hover:border-gray-300 bg-white'
+          : 'border-gray-200 hover:border-gray-300'
       }`}
-      onClick={isOverlay ? undefined : handleSelect}
+      onClick={() => onSelect(element.id)}
     >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
@@ -112,7 +75,11 @@ const LayerItem = ({
                 className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
-                onBlur={commitRename}
+                onBlur={() => {
+                  setIsEditing(false);
+                  if (nameValue !== (element.name || element.type))
+                    onRename?.(element.id, nameValue);
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     inputRef.current?.blur();
@@ -128,6 +95,7 @@ const LayerItem = ({
                 onDoubleClick={(e) => {
                   e.stopPropagation();
                   setIsEditing(true);
+                  // focus handled by input autoFocus when rendered
                 }}
                 title="Double-click to rename"
                 className="cursor-text"
@@ -140,7 +108,10 @@ const LayerItem = ({
       </div>
       <div className="flex items-center gap-1">
         <button
-          onClick={handleToggleVisibility}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleLayerVisibility(element.id);
+          }}
           className="p-1 hover:bg-gray-200 rounded transition-colors"
           title={element.visible ? 'Hide' : 'Show'}
         >
@@ -151,7 +122,10 @@ const LayerItem = ({
           )}
         </button>
         <button
-          onClick={handleToggleLock}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleLayerLock(element.id);
+          }}
           className="p-1 hover:bg-gray-200 rounded transition-colors"
           title={element.locked ? 'Unlock' : 'Lock'}
         >
@@ -162,21 +136,30 @@ const LayerItem = ({
           )}
         </button>
         <button
-          onClick={handleMoveUp}
+          onClick={(e) => {
+            e.stopPropagation();
+            moveLayer(element.id, 'up');
+          }}
           className="p-1 hover:bg-gray-200 rounded transition-colors"
           title="Move Up"
         >
           <ArrowUp className="w-4 h-4" />
         </button>
         <button
-          onClick={handleMoveDown}
+          onClick={(e) => {
+            e.stopPropagation();
+            moveLayer(element.id, 'down');
+          }}
           className="p-1 hover:bg-gray-200 rounded transition-colors"
           title="Move Down"
         >
           <ArrowDown className="w-4 h-4" />
         </button>
         <button
-          onClick={handleDelete}
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteElement(element.id);
+          }}
           className="p-1 hover:bg-red-100 text-red-600 rounded transition-colors"
           title="Delete"
         >
@@ -187,4 +170,4 @@ const LayerItem = ({
   );
 };
 
-export default memo(LayerItem);
+export default LayerItem;
