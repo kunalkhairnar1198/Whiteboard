@@ -112,7 +112,14 @@ export class LayerManager {
   // -------------------------
   _track(obj) {
     const id = obj.data.id;
-    console.log('[LayerManager._track] id=', id, 'engine#', this.engine._instanceId, 'layer:added listeners=', this.engine.bus.listeners.get('layer:added')?.size ?? 0);
+    console.log(
+      '[LayerManager._track] id=',
+      id,
+      'engine#',
+      this.engine._instanceId,
+      'layer:added listeners=',
+      this.engine.bus.listeners.get('layer:added')?.size ?? 0,
+    );
     if (this.byId.has(id)) {
       this.byId.set(id, obj);
       this.engine.bus.emit('layer:updated', { id, changes: projectLayer(obj) });
@@ -121,7 +128,10 @@ export class LayerManager {
     this.byId.set(id, obj);
     const index = indexAmongLayers(this._attached, id);
     const layer = projectLayer(obj);
-    console.log('[LayerManager._track] emitting layer:added on engine#', this.engine._instanceId, { layer, index });
+    console.log('[LayerManager._track] emitting layer:added on engine#', this.engine._instanceId, {
+      layer,
+      index,
+    });
     this.engine.bus.emit('layer:added', { layer, index });
   }
 
@@ -141,7 +151,10 @@ export class LayerManager {
   getOrderedIds() {
     const fabric = this.engine.canvas.fabric;
     if (!fabric) return [];
-    return fabric.getObjects().filter(isLayerObject).map((o) => o.data.id);
+    return fabric
+      .getObjects()
+      .filter(isLayerObject)
+      .map((o) => o.data.id);
   }
 
   getProjection() {
@@ -302,7 +315,7 @@ export class LayerManager {
     console.log('[LayerManager.setOrder] request:', orderedIds);
     const currentObjects = fabric.getObjects();
     const next = reorderLayersByIds(currentObjects, orderedIds);
-    
+
     if (next === currentObjects) {
       console.log('[LayerManager.setOrder] no change detected by utility');
       return false;
@@ -311,10 +324,10 @@ export class LayerManager {
     fabric._objects = next;
     // Force fabric to recognize the new order if it caches anything
     fabric.getObjects().forEach((obj, i) => {
-        if (obj.canvas === fabric) {
-            // Some internal fabric methods might rely on this, 
-            // though usually it's derived.
-        }
+      if (obj.canvas === fabric) {
+        // Some internal fabric methods might rely on this,
+        // though usually it's derived.
+      }
     });
 
     this.engine.render.schedule();

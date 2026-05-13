@@ -54,4 +54,5 @@ export const reorderLayersByIds = (objects, orderedLayerIds) => {
   });
 };
 
-export const getOrderedLayerIds = (objects) => getLayerObjects(objects).map((object) => object.data.id);
+export const getOrderedLayerIds = (objects) =>
+  getLayerObjects(objects).map((object) => object.data.id);

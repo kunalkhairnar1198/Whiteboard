@@ -154,7 +154,12 @@ export class PenRenderer {
     ctx.beginPath();
     ctx.moveTo(last.x, last.y);
     if (last.handleOut) {
-      ctx.quadraticCurveTo(last.x + last.handleOut.x, last.y + last.handleOut.y, preview.x, preview.y);
+      ctx.quadraticCurveTo(
+        last.x + last.handleOut.x,
+        last.y + last.handleOut.y,
+        preview.x,
+        preview.y,
+      );
     } else {
       ctx.lineTo(preview.x, preview.y);
     }
@@ -176,7 +181,14 @@ export class PenRenderer {
         ctx.lineTo(p.x + p.handleIn.x, p.y + p.handleIn.y);
         ctx.stroke();
         const isHovered = state.hoveredPoint === `handleIn_${p.id}`;
-        this._dot(ctx, p.x + p.handleIn.x, p.y + p.handleIn.y, HANDLE_RADIUS, isHovered ? '#3b82f6' : '#ffffff', '#3b82f6');
+        this._dot(
+          ctx,
+          p.x + p.handleIn.x,
+          p.y + p.handleIn.y,
+          HANDLE_RADIUS,
+          isHovered ? '#3b82f6' : '#ffffff',
+          '#3b82f6',
+        );
       }
       if (p.handleOut) {
         ctx.beginPath();
@@ -184,7 +196,14 @@ export class PenRenderer {
         ctx.lineTo(p.x + p.handleOut.x, p.y + p.handleOut.y);
         ctx.stroke();
         const isHovered = state.hoveredPoint === `handleOut_${p.id}`;
-        this._dot(ctx, p.x + p.handleOut.x, p.y + p.handleOut.y, HANDLE_RADIUS, isHovered ? '#3b82f6' : '#ffffff', '#3b82f6');
+        this._dot(
+          ctx,
+          p.x + p.handleOut.x,
+          p.y + p.handleOut.y,
+          HANDLE_RADIUS,
+          isHovered ? '#3b82f6' : '#ffffff',
+          '#3b82f6',
+        );
       }
     }
     ctx.restore();

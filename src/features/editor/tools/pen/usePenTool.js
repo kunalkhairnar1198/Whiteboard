@@ -47,10 +47,18 @@ export const usePenTool = (engine, _opts = {}) => {
   // fields are live but not subscribed.
   const state = useMemo(
     () => ({
-      get mode() { return engine?.pen?.state?.mode ?? INITIAL_STATE.mode; },
-      get activePath() { return engine?.pen?.state?.activePath ?? null; },
-      get selectedPoints() { return engine?.pen?.state?.selectedPoints ?? []; },
-      get hoveredPoint() { return engine?.pen?.state?.hoveredPoint ?? null; },
+      get mode() {
+        return engine?.pen?.state?.mode ?? INITIAL_STATE.mode;
+      },
+      get activePath() {
+        return engine?.pen?.state?.activePath ?? null;
+      },
+      get selectedPoints() {
+        return engine?.pen?.state?.selectedPoints ?? [];
+      },
+      get hoveredPoint() {
+        return engine?.pen?.state?.hoveredPoint ?? null;
+      },
       snapEnabled,
     }),
     [engine, snapEnabled],

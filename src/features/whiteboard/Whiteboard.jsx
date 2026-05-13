@@ -94,9 +94,7 @@ const Whiteboard = forwardRef(
           >
             Eraser
           </button>
-          <span className="ml-auto text-gray-500 text-sm">
-            Whiteboard Mode: {currentTool}
-          </span>
+          <span className="ml-auto text-gray-500 text-sm">Whiteboard Mode: {currentTool}</span>
         </div>
 
         <div className="flex-1 overflow-auto">
@@ -106,9 +104,7 @@ const Whiteboard = forwardRef(
             height={height}
             style={{ background: backgroundColor }}
           >
-            <Layer ref={layerRef}>
-                {/* Board content would be rendered here */}
-            </Layer>
+            <Layer ref={layerRef}>{/* Board content would be rendered here */}</Layer>
           </Stage>
         </div>
       </div>

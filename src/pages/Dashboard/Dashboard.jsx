@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  Plus, 
-  FileJson, 
-  Trash2, 
-  Clock, 
-  Layout, 
-  ArrowRight, 
+import {
+  Plus,
+  FileJson,
+  Trash2,
+  Clock,
+  Layout,
+  ArrowRight,
   Layers,
   Search,
   MoreVertical,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,14 +32,13 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
     }
   };
 
-  const filteredDiagrams = diagrams.filter(d => 
-    d.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredDiagrams = diagrams.filter((d) =>
+    d.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dashboard-from to-dashboard-to text-foreground p-6 md:p-12 transition-colors duration-500">
       <div className="max-w-7xl mx-auto space-y-12">
-        
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -50,7 +49,7 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
               Design, collaborate, and bring your ideas to life.
             </p>
           </div>
-          <Button 
+          <Button
             onClick={onCreateNew}
             size="lg"
             className="bg-blue-600 hover:bg-blue-500 text-white rounded-full px-8 py-6 text-lg font-semibold shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all hover:scale-105 active:scale-95 flex gap-3"
@@ -63,8 +62,8 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
         {/* Search & Filters */}
         <div className="relative max-w-2xl">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
-          <Input 
-            placeholder="Search your workspaces..." 
+          <Input
+            placeholder="Search your workspaces..."
             className="pl-12 bg-dashboard-card border-border/50 text-foreground h-14 rounded-2xl focus:ring-2 focus:ring-primary/50 transition-all backdrop-blur-xl"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -92,7 +91,7 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredDiagrams.map((name) => (
-                <Card 
+                <Card
                   key={name}
                   onClick={() => onSelectWorkspace(name)}
                   className="group relative bg-dashboard-card border-border/50 hover:border-primary/50 hover:bg-dashboard-card-hover transition-all cursor-pointer overflow-hidden backdrop-blur-md shadow-lg"
@@ -103,9 +102,9 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
                       <div className="p-3 bg-primary/20 rounded-xl">
                         <Layout className="w-6 h-6 text-primary" />
                       </div>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
                         onClick={(e) => handleDelete(e, name)}
                       >
@@ -121,8 +120,12 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
                   </CardHeader>
                   <div className="p-6 pt-0 relative z-10 flex items-center justify-between">
                     <div className="flex -space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold">JD</div>
-                      <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold">ME</div>
+                      <div className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold">
+                        JD
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold">
+                        ME
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 text-xs font-medium text-blue-400 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
                       Open Design <ExternalLink className="w-3 h-3" />

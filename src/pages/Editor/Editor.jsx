@@ -29,7 +29,6 @@ import { usePenTool } from '@/features/editor/tools/pen/usePenTool';
 import { PenToolOverlay } from '@/features/editor/tools/pen/PenToolOverlay';
 import EditorToolbar from '@/features/editor/components/Toolbar/EditorToolbar';
 
-
 /**
  * FabricEditor
  * - Fixed: background image upload now sets the canvas background image and waits for it to load
@@ -56,47 +55,70 @@ const FabricEditor = ({ initialDiagramName, onBack }) => {
   // LeftSidebar reads `elements` via useLayers() directly; image
   // insertion sets selection via engine.selection.setSelection.
   const engine = useEditor();
-  const { zoom, setZoom, handleZoomIn, handleZoomOut, resetZoom } = useCanvasZoom(canvas, { engine });
+  const { zoom, setZoom, handleZoomIn, handleZoomOut, resetZoom } = useCanvasZoom(canvas, {
+    engine,
+  });
   const { canvasSize, selectedPreset, handlePresetChange } = useCanvasSize({ zoom, engine });
-  const { background, setBackground, handleBgImageUpload } = useCanvasBackground(canvas, { canvasSize, engine });
+  const { background, setBackground, handleBgImageUpload } = useCanvasBackground(canvas, {
+    canvasSize,
+    engine,
+  });
   const { isCanvasReady } = useCanvasInstance(canvas, {
     canvasElRef: canvasRef,
     initialCanvasSize: canvasSize,
     initialBackgroundColor: background.type === 'color' ? background.value : '#ffffff',
     engine,
   });
-  const { showGrid, setShowGrid, gridSize, setGridSize } = useCanvasGrid(canvas, { canvasSize, engine });
-  const [currentTool, setCurrentTool] = useQueryState('tool', parseAsString.withDefault('select').withOptions({ history: 'replace', shallow: true }));
+  const { showGrid, setShowGrid, gridSize, setGridSize } = useCanvasGrid(canvas, {
+    canvasSize,
+    engine,
+  });
+  const [currentTool, setCurrentTool] = useQueryState(
+    'tool',
+    parseAsString.withDefault('select').withOptions({ history: 'replace', shallow: true }),
+  );
   // Tool settings live in toolSlice (Redux). engineSync mirrors them
   // into engine.tools.context whenever they change.
-  const { counterRef: elementCounterRef, increment: incrementElementCounter, syncFromState: syncElementCounter } = useElementCounter(0);
+  const {
+    counterRef: elementCounterRef,
+    increment: incrementElementCounter,
+    syncFromState: syncElementCounter,
+  } = useElementCounter(0);
   const [isSpacePressed, setIsSpacePressed] = useState(false);
   const { isPanning } = useEnginePanning(engine, isSpacePressed);
   const ui = useEditorUIState();
-  const { showLayers, setShowLayers, showFilters, setShowFilters, showLeftSidebar, setShowLeftSidebar, showRightSidebar, setShowRightSidebar, toolbarOrientation, setToolbarOrientation } = ui;
-  const { templateName, setTemplateName, saveWorkspace } = useTemplateName(initialDiagramName, { canvas });
+  const {
+    showLayers,
+    setShowLayers,
+    showFilters,
+    setShowFilters,
+    showLeftSidebar,
+    setShowLeftSidebar,
+    showRightSidebar,
+    setShowRightSidebar,
+    toolbarOrientation,
+    setToolbarOrientation,
+  } = ui;
+  const { templateName, setTemplateName, saveWorkspace } = useTemplateName(initialDiagramName, {
+    canvas,
+  });
 
   // -------------------------
   // History (buffer in engine.history; flags via Redux) + persistence.
   // -------------------------
   const history = useHistory(engine);
   const { canUndo, canRedo } = history;
-  const {
-    safeSaveState,
-    loadWorkspaceFromFile,
-    loadSavedDiagram,
-    handleUndo,
-    handleRedo,
-  } = useCanvasPersistence({
-    engine,
-    canvas,
-    isCanvasReady,
-    templateName,
-    setTemplateName,
-    initialDiagramName,
-    syncElementCounter,
-    history,
-  });
+  const { safeSaveState, loadWorkspaceFromFile, loadSavedDiagram, handleUndo, handleRedo } =
+    useCanvasPersistence({
+      engine,
+      canvas,
+      isCanvasReady,
+      templateName,
+      setTemplateName,
+      initialDiagramName,
+      syncElementCounter,
+      history,
+    });
   const isTextObject = useCallback((obj) => obj?.type === 'textbox' || obj?.type === 'i-text', []);
 
   // -------------------------
@@ -107,7 +129,6 @@ const FabricEditor = ({ initialDiagramName, onBack }) => {
   // Pen path commit + edit-mode visibility restore are owned by
   // PenStateMachine.commit / .reset; no React-side handler needed.
   const penTool = usePenTool(engine);
-
 
   const { handleImageUpload } = useImageInsertion({
     canvas,
@@ -174,8 +195,8 @@ const FabricEditor = ({ initialDiagramName, onBack }) => {
 
       case 'pen':
         if (penTool.state.hoveredPoint) {
-            if (penTool.state.hoveredPoint.startsWith('anchor')) return 'move';
-            return 'crosshair';
+          if (penTool.state.hoveredPoint.startsWith('anchor')) return 'move';
+          return 'crosshair';
         }
         return 'crosshair'; // Should ideally be a custom pen icon
       case 'brush':

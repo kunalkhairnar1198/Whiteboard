@@ -6,15 +6,15 @@
 
 ## Local Development
 
-| Item            | Value                              |
-| :-------------- | :--------------------------------- |
-| **Start**       | `yarn dev`                         |
-| **Port**        | `http://localhost:5173` (Vite)     |
-| **Build**       | `yarn build`                       |
-| **Preview**     | `yarn preview`                     |
-| **Lint**        | `yarn lint`                        |
-| **Test**        | `yarn test` (`node --test`)        |
-| **Node.js**     | 18+ recommended                    |
+| Item        | Value                          |
+| :---------- | :----------------------------- |
+| **Start**   | `yarn dev`                     |
+| **Port**    | `http://localhost:5173` (Vite) |
+| **Build**   | `yarn build`                   |
+| **Preview** | `yarn preview`                 |
+| **Lint**    | `yarn lint`                    |
+| **Test**    | `yarn test` (`node --test`)    |
+| **Node.js** | 18+ recommended                |
 
 ---
 
@@ -37,13 +37,13 @@ We use a decoupled architecture where the heavy lifting (Fabric.js, state mutati
 
 ### Important Engine Methods
 
-| Method                | Manager       | Purpose                                            |
-| :-------------------- | :------------ | :------------------------------------------------- |
-| `engine.layers.setOrder()` | `LayerManager` | Reorder objects on the canvas (supports Dnd)        |
-| `engine.tools.activate()` | `ToolManager`  | Switch the active canvas interaction tool          |
-| `engine.selection.clear()`| `SelectionManager` | Deselect all objects                            |
-| `engine.render.schedule()`| `RenderManager` | Batch a canvas re-render for the next frame       |
-| `engine.persistence.scheduleSave()` | `PersistenceService` | Debounced save to LocalStorage        |
+| Method                              | Manager              | Purpose                                      |
+| :---------------------------------- | :------------------- | :------------------------------------------- |
+| `engine.layers.setOrder()`          | `LayerManager`       | Reorder objects on the canvas (supports Dnd) |
+| `engine.tools.activate()`           | `ToolManager`        | Switch the active canvas interaction tool    |
+| `engine.selection.clear()`          | `SelectionManager`   | Deselect all objects                         |
+| `engine.render.schedule()`          | `RenderManager`      | Batch a canvas re-render for the next frame  |
+| `engine.persistence.scheduleSave()` | `PersistenceService` | Debounced save to LocalStorage               |
 
 ---
 
@@ -58,13 +58,13 @@ We use a decoupled architecture where the heavy lifting (Fabric.js, state mutati
 
 ## Debugging
 
-| Scenario                  | Technique                                                     |
-| :------------------------ | :------------------------------------------------------------ |
-| Canvas object inspection  | `window.engine.canvas.fabric.getObjects()` in console          |
-| Redux State               | Use Redux DevTools to track actions dispatched by `engineSync` |
-| Persistence issues        | Check `localStorage.getItem('fabric_editor_state')`           |
-| Engine Bus Events         | Log events in `engine.bus` to see communication flow          |
-| Rendering glitches        | Call `engine.render.flush()` manually to force immediate draw |
+| Scenario                 | Technique                                                      |
+| :----------------------- | :------------------------------------------------------------- |
+| Canvas object inspection | `window.engine.canvas.fabric.getObjects()` in console          |
+| Redux State              | Use Redux DevTools to track actions dispatched by `engineSync` |
+| Persistence issues       | Check `localStorage.getItem('fabric_editor_state')`            |
+| Engine Bus Events        | Log events in `engine.bus` to see communication flow           |
+| Rendering glitches       | Call `engine.render.flush()` manually to force immediate draw  |
 
 ---
 

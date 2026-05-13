@@ -27,7 +27,6 @@ export const selectToolSetting = (key) => (state) => state.tool.settings[key];
 // Selection
 export const selectSelectedIds = (state) => state.selection.ids;
 export const selectIsSelected = (id) => (state) => state.selection.ids.includes(id);
-export const selectSingleSelectedId = createSelector(
-  [selectSelectedIds],
-  (ids) => (ids.length === 1 ? ids[0] : null),
+export const selectSingleSelectedId = createSelector([selectSelectedIds], (ids) =>
+  ids.length === 1 ? ids[0] : null,
 );

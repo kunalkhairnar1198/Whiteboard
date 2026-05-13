@@ -16,7 +16,16 @@ import { BrushTool } from './tools/BrushTool';
 import { EraserTool } from './tools/EraserTool';
 import { PenTool } from './tools/PenTool';
 
-const SHAPE_TYPES = ['rectangle', 'circle', 'triangle', 'star', 'arrow', 'line', 'polygon', 'frame'];
+const SHAPE_TYPES = [
+  'rectangle',
+  'circle',
+  'triangle',
+  'star',
+  'arrow',
+  'line',
+  'polygon',
+  'frame',
+];
 
 /**
  * EditorEngine — facade that owns the per-editor managers.

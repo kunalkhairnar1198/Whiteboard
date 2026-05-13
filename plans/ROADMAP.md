@@ -101,8 +101,8 @@
 
 ## Legend
 
-| Icon | Status |
-| :--- | :----- |
-| ✅   | Complete |
-| 🔧   | In progress / next up |
-| (no icon) | Planned |
+| Icon      | Status                |
+| :-------- | :-------------------- |
+| ✅        | Complete              |
+| 🔧        | In progress / next up |
+| (no icon) | Planned               |

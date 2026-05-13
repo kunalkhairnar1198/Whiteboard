@@ -59,7 +59,8 @@ export class PenStateMachine {
   // Mutations
   // -------------------------
   _setState(updater) {
-    const next = typeof updater === 'function' ? updater(this.state) : { ...this.state, ...updater };
+    const next =
+      typeof updater === 'function' ? updater(this.state) : { ...this.state, ...updater };
     if (next === this.state) return;
     this.state = next;
     this.engine.bus.emit('pen:state-changed');
@@ -452,7 +453,7 @@ export class PenStateMachine {
             // to continue the sub-path.
             // For now, let's just allow it by making it the last point.
             newPoints = [...points.slice(0, idx + 1)];
-            // And we probably want to keep the rest as another path? 
+            // And we probably want to keep the rest as another path?
             // The current engine only supports one activePath.
             // If we continue from an internal point, we "drop" the trailing points
             // or we have to support multi-path drawing.
@@ -479,7 +480,12 @@ export class PenStateMachine {
     const prev = this.state;
 
     // Draw mode: pull last anchor's handle.
-    if (prev.mode === 'draw' && prev.isDraggingHandle && prev.activePath && prev.activePath.points.length > 0) {
+    if (
+      prev.mode === 'draw' &&
+      prev.isDraggingHandle &&
+      prev.activePath &&
+      prev.activePath.points.length > 0
+    ) {
       const points = [...prev.activePath.points];
       const lastIdx = points.length - 1;
       const last = { ...points[lastIdx] };

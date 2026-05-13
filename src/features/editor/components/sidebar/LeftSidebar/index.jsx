@@ -1,5 +1,18 @@
 import React, { memo, useRef, useState, useEffect } from 'react';
-import { Square, Move, PenTool, Pencil, Eraser, Type, Image as ImageIcon, ChevronLeft, ChevronRight, FileJson, Trash2, RefreshCw } from 'lucide-react';
+import {
+  Square,
+  Move,
+  PenTool,
+  Pencil,
+  Eraser,
+  Type,
+  Image as ImageIcon,
+  ChevronLeft,
+  ChevronRight,
+  FileJson,
+  Trash2,
+  RefreshCw,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Sidebar,
@@ -86,23 +99,25 @@ const LeftSidebar = ({
   const [gradientTo, setGradientTo] = useState('#8b5cf6');
 
   return (
-    <Sidebar 
-      side="left" 
-      mobileOpen={showLeftSidebar}
-    > 
+    <Sidebar side="left" mobileOpen={showLeftSidebar}>
       <SidebarHeader className="flex flex-row items-center justify-between p-4 border-b">
         <div>
           <p className="text-sm font-semibold">Settings</p>
           <p className="text-xs text-muted-foreground">Canvas & Grid configurations</p>
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={() => setShowLeftSidebar(!showLeftSidebar)}
           className="absolute right-0 translate-x-full top-0  h-8 w-8 rounded-r-xl rounded-l-none border-l-0 shadow-lg z-[110] bg-white hover:bg-slate-50"
-          title={showLeftSidebar ? "Collapse Sidebar" : "Open Settings"}
-        > 
-          <ChevronLeft className={cn("h-5 w-5 transition-transform duration-300", !showLeftSidebar && "rotate-180")} />
+          title={showLeftSidebar ? 'Collapse Sidebar' : 'Open Settings'}
+        >
+          <ChevronLeft
+            className={cn(
+              'h-5 w-5 transition-transform duration-300',
+              !showLeftSidebar && 'rotate-180',
+            )}
+          />
         </Button>
       </SidebarHeader>
       <SidebarContent className="space-y-6">
@@ -133,7 +148,9 @@ const LeftSidebar = ({
             </div>
             {selectedPreset === 'Custom' && (
               <div className="mb-4">
-                <h4 className="text-xs font-semibold text-muted-foreground mb-2">Custom Dimensions</h4>
+                <h4 className="text-xs font-semibold text-muted-foreground mb-2">
+                  Custom Dimensions
+                </h4>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Width (px):</label>
@@ -210,7 +227,9 @@ const LeftSidebar = ({
             </label>
             {showGrid && (
               <div>
-                <label className="text-xs text-muted-foreground block mb-1">Grid Size: {gridSize}px</label>
+                <label className="text-xs text-muted-foreground block mb-1">
+                  Grid Size: {gridSize}px
+                </label>
                 <input
                   type="range"
                   min="10"
@@ -252,7 +271,10 @@ const LeftSidebar = ({
               ))
             )}
             <div className="pt-2 px-2">
-               <p className="text-[10px] text-muted-foreground italic">Diagrams are saved in browser's local storage. Export JSON to save to your local machine.</p>
+              <p className="text-[10px] text-muted-foreground italic">
+                Diagrams are saved in browser's local storage. Export JSON to save to your local
+                machine.
+              </p>
             </div>
           </div>
         </SidebarGroup>

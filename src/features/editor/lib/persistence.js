@@ -1,4 +1,3 @@
-
 const STORAGE_KEY = 'fabric_editor_state';
 const DIAGRAMS_LIST_KEY = 'fabric_editor_diagrams_list';
 
@@ -72,7 +71,7 @@ export const deleteSavedDiagram = (name) => {
   try {
     localStorage.removeItem(`${STORAGE_KEY}_${name}`);
     const list = getSavedDiagramsList();
-    const newList = list.filter(item => item !== name);
+    const newList = list.filter((item) => item !== name);
     localStorage.setItem(DIAGRAMS_LIST_KEY, JSON.stringify(newList));
   } catch (error) {
     console.error('Failed to delete diagram:', error);
@@ -85,10 +84,11 @@ export const deleteSavedDiagram = (name) => {
  * @param {string} fileName - The name of the file to download.
  */
 export const exportToJson = (state, fileName = 'diagram') => {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+  const dataStr =
+    'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
   const downloadAnchorNode = document.createElement('a');
-  downloadAnchorNode.setAttribute("href", dataStr);
-  downloadAnchorNode.setAttribute("download", fileName + ".json");
+  downloadAnchorNode.setAttribute('href', dataStr);
+  downloadAnchorNode.setAttribute('download', fileName + '.json');
   document.body.appendChild(downloadAnchorNode);
   downloadAnchorNode.click();
   downloadAnchorNode.remove();

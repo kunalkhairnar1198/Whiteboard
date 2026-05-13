@@ -75,9 +75,7 @@ export class PersistenceService {
           'selectable',
         ]);
         this.engine.history.push(json);
-        this.save(json, this._names).catch((err) =>
-          console.error('Persistence save failed', err),
-        );
+        this.save(json, this._names).catch((err) => console.error('Persistence save failed', err));
       } catch (err) {
         console.error('Error during auto-save:', err);
       }

@@ -2,7 +2,7 @@ export const FILTER_INDICES = {
   GRAYSCALE: 0,
   INVERT: 1,
   SEPIA: 2,
-  BROWNIE: 3,   
+  BROWNIE: 3,
   BRIGHTNESS: 4,
   CONTRAST: 5,
   SATURATION: 6,

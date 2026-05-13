@@ -4,7 +4,9 @@ import { useSelectedElement } from '@/features/editor/hooks/useSelectedElement';
 
 // Code-split: ImageFilterPanel pulls in Fabric's filter classes; load
 // only when the user actually opens the Filters tab.
-const ImageFilterPanel = lazy(() => import('@/features/editor/components/filters/ImageFilterPanel'));
+const ImageFilterPanel = lazy(
+  () => import('@/features/editor/components/filters/ImageFilterPanel'),
+);
 
 const FilterFallback = () => (
   <div className="py-12 text-center">

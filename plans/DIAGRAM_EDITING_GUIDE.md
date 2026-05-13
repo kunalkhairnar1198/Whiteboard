@@ -11,12 +11,14 @@
 Split a connected path into separate segments or open a closed shape.
 
 ### Open a Closed Shape
+
 1. **Double-click** the shape to enter Node Edit Mode.
 2. Select the anchor point where you want the break.
 3. Press **`Cmd + B`**.
 4. The shape becomes an **Open Path** starting and ending at that node.
 
 ### Split an Open Path
+
 1. Select an intermediate anchor point (not an endpoint).
 2. Press **`Cmd + B`**.
 3. The path splits into **two separate objects** at that location.
@@ -41,6 +43,7 @@ Connect separate endpoints to form a single continuous path or close a loop.
 > ⚠️ **Not yet implemented** — planned for Phase 5 (see [ROADMAP.md](./ROADMAP.md)).
 
 The planned workflow:
+
 1. Enter Node Edit Mode.
 2. Hover over any path segment.
 3. When the **`+`** indicator appears, click to insert a new anchor.
@@ -52,11 +55,11 @@ The planned workflow:
 
 Change how a diagram curves or bends at any node:
 
-| Point Type        | Behavior                                                  |
-| :---------------- | :-------------------------------------------------------- |
-| **Corner**        | Sharp angle, no handles. Good for boxes and sharp turns.  |
-| **Smooth**        | Mirror-image handles. Good for organic curves.            |
-| **Disconnected**  | Handles move independently. For complex transitions.      |
+| Point Type       | Behavior                                                 |
+| :--------------- | :------------------------------------------------------- |
+| **Corner**       | Sharp angle, no handles. Good for boxes and sharp turns. |
+| **Smooth**       | Mirror-image handles. Good for organic curves.           |
+| **Disconnected** | Handles move independently. For complex transitions.     |
 
 **Toggle shortcut:** Hold **`Alt`** and **Click** any anchor to switch between Corner ↔ Smooth.
 

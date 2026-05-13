@@ -16,10 +16,12 @@ const NotFound = () => {
         </div>
         <div className="space-y-2">
           <h1 className="text-4xl font-bold">Workspace Not Found</h1>
-          <p className="text-slate-400">The diagram you are looking for does not exist or has been deleted.</p>
+          <p className="text-slate-400">
+            The diagram you are looking for does not exist or has been deleted.
+          </p>
         </div>
-        <Button 
-          onClick={() => navigate('/')} 
+        <Button
+          onClick={() => navigate('/')}
           className="bg-blue-600 hover:bg-blue-500 rounded-full px-8 flex gap-2"
         >
           <Home className="w-4 h-4" />
@@ -35,7 +37,7 @@ const EditorWrapper = () => {
   const { diagramId } = useParams();
   const navigate = useNavigate();
   const decodedId = diagramId ? decodeURIComponent(diagramId) : null;
-  
+
   // 404 Check: If diagramId is provided, verify it exists in our storage list
   if (decodedId) {
     const savedDiagrams = getSavedDiagramsList();
@@ -43,13 +45,8 @@ const EditorWrapper = () => {
       return <NotFound />;
     }
   }
-  
-  return (
-    <FabricEditor 
-      initialDiagramName={decodedId} 
-      onBack={() => navigate('/')}
-    />
-  );
+
+  return <FabricEditor initialDiagramName={decodedId} onBack={() => navigate('/')} />;
 };
 
 function App() {
@@ -66,14 +63,11 @@ function App() {
   return (
     <div className="w-full h-screen overflow-hidden">
       <Routes>
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
-            <Dashboard 
-              onSelectWorkspace={handleSelectWorkspace} 
-              onCreateNew={handleCreateNew} 
-            />
-          } 
+            <Dashboard onSelectWorkspace={handleSelectWorkspace} onCreateNew={handleCreateNew} />
+          }
         />
         <Route path="/editor" element={<EditorWrapper />} />
         <Route path="/editor/:diagramId" element={<EditorWrapper />} />

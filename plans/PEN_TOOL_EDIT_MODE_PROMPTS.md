@@ -747,20 +747,20 @@ that need changing — not a full rewrite.
 
 ## Quick Reference — Prompt Order
 
-| # | Prompt | Builds on |
-|---|--------|-----------|
-| 01 | Audit & integration point | — |
-| 02 | Data types | 01 |
-| 03 | Activate / exit edit mode | 02 |
-| 04 | Render anchors + handles | 03 |
-| 05 | Drag anchor points | 04 |
-| 06 | Drag bezier handles | 05 |
-| 07 | Add point on segment | 06 |
-| 08 | Delete points | 07 |
-| 09 | Convert point types | 08 |
-| 10 | Hit test priority system | 05–09 |
-| 11 | Undo / redo | 10 |
-| 12 | Final integration & cleanup | 11 |
+| #   | Prompt                      | Builds on |
+| --- | --------------------------- | --------- |
+| 01  | Audit & integration point   | —         |
+| 02  | Data types                  | 01        |
+| 03  | Activate / exit edit mode   | 02        |
+| 04  | Render anchors + handles    | 03        |
+| 05  | Drag anchor points          | 04        |
+| 06  | Drag bezier handles         | 05        |
+| 07  | Add point on segment        | 06        |
+| 08  | Delete points               | 07        |
+| 09  | Convert point types         | 08        |
+| 10  | Hit test priority system    | 05–09     |
+| 11  | Undo / redo                 | 10        |
+| 12  | Final integration & cleanup | 11        |
 
 ---
 
@@ -788,4 +788,4 @@ that need changing — not a full rewrite.
 
 ---
 
-*12 prompts · run in order · fill in [brackets] before pasting*
+_12 prompts · run in order · fill in [brackets] before pasting_

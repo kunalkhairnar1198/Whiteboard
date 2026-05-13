@@ -34,15 +34,22 @@ const RightSidebar = ({
 
   const showImageFiltersTab = selectedElement?.type === 'image';
   console.warn(
-    '🔍 [RightSidebar] showLayers=', showLayers,
-    'showFilters=', showFilters,
-    'selectedIds.length=', selectedIds.length,
-    'selectedElement?', Boolean(selectedElement),
+    '🔍 [RightSidebar] showLayers=',
+    showLayers,
+    'showFilters=',
+    showFilters,
+    'selectedIds.length=',
+    selectedIds.length,
+    'selectedElement?',
+    Boolean(selectedElement),
     '→ panel will be:',
-    (showFilters && showImageFiltersTab) ? 'FiltersPanel'
-      : showLayers ? 'LayersPanel'
-      : selectedIds.length === 0 ? 'ToolSettingsPanel'
-      : 'PropertiesPanel',
+    showFilters && showImageFiltersTab
+      ? 'FiltersPanel'
+      : showLayers
+        ? 'LayersPanel'
+        : selectedIds.length === 0
+          ? 'ToolSettingsPanel'
+          : 'PropertiesPanel',
   );
   return (
     <Sidebar side="right" mobileOpen={showRightSidebar}>
@@ -70,20 +77,29 @@ const RightSidebar = ({
       <div className="flex">
         <TabButton
           active={!showLayers && !showFilters}
-          onClick={() => { setShowLayers(false); setShowFilters(false); }}
+          onClick={() => {
+            setShowLayers(false);
+            setShowFilters(false);
+          }}
         >
           Properties
         </TabButton>
         <TabButton
           active={showLayers && !showFilters}
-          onClick={() => { setShowLayers(true); setShowFilters(false); }}
+          onClick={() => {
+            setShowLayers(true);
+            setShowFilters(false);
+          }}
         >
           Layers
         </TabButton>
         {showImageFiltersTab && (
           <TabButton
             active={showFilters}
-            onClick={() => { setShowLayers(false); setShowFilters(true); }}
+            onClick={() => {
+              setShowLayers(false);
+              setShowFilters(true);
+            }}
           >
             <Filter className="inline mr-1 w-4 h-4" /> Filters
           </TabButton>

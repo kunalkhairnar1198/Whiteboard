@@ -92,7 +92,7 @@ const LayersPanel = () => {
 
     // Move in the UI-visible order [top -> bottom]
     const newSortedIds = arrayMove(sortedIds, oldIndex, newIndex);
-    
+
     // The engine expects [bottom -> top]
     const newOrder = [...newSortedIds].reverse();
 
@@ -101,8 +101,11 @@ const LayersPanel = () => {
     }
   };
 
-  const sortedIds = elements.slice().reverse().map((el) => el.id);
-  const activeElement = activeId ? elements.find(el => el.id === activeId) : null;
+  const sortedIds = elements
+    .slice()
+    .reverse()
+    .map((el) => el.id);
+  const activeElement = activeId ? elements.find((el) => el.id === activeId) : null;
 
   const dropAnimation = {
     sideEffects: defaultDropAnimationSideEffects({
@@ -115,9 +118,9 @@ const LayersPanel = () => {
   };
 
   return (
-    <DndContext 
-      sensors={sensors} 
-      collisionDetection={closestCenter} 
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragEnd={onDragEnd}
     >

@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+build
+coverage
+public
+.agents
+*.log
+yarn.lock
+package-lock.json
+pnpm-lock.yaml

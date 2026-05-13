@@ -7,10 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
  * Phase B: previously called canvasUtils directly on the raw canvas;
  * now delegates to `engine.canvas.setBackgroundColor/Image`.
  */
-export const useCanvasBackground = (
-  canvas,
-  { canvasSize, engine, onAfterApply } = {},
-) => {
+export const useCanvasBackground = (canvas, { canvasSize, engine, onAfterApply } = {}) => {
   const [background, setBackground] = useState({ type: 'color', value: '#ffffff' });
 
   useEffect(() => {

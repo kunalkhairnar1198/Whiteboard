@@ -15,7 +15,17 @@ import {
   fabric,
 } from '@/features/editor/utils/fabricFactory';
 
-export const SHAPE_TOOLS = ['rectangle', 'circle', 'triangle', 'star', 'arrow', 'line', 'polygon', 'frame', 'pen'];
+export const SHAPE_TOOLS = [
+  'rectangle',
+  'circle',
+  'triangle',
+  'star',
+  'arrow',
+  'line',
+  'polygon',
+  'frame',
+  'pen',
+];
 
 export const isShapeTool = (tool) => SHAPE_TOOLS.includes(tool);
 
@@ -165,22 +175,22 @@ export const drawGrid = (canvas, showGrid, gridSize, _canvasSize, gridGroup) => 
  */
 export const getShapeAnchors = (obj) => {
   if (!obj) return [];
-  
+
   // For basic shapes, return top, right, bottom, left centers
   const width = obj.width * obj.scaleX;
   const height = obj.height * obj.scaleY;
   const rx = width / 2;
   const ry = height / 2;
-  
+
   // Center point in canvas coordinates
   const center = obj.getCenterPoint();
-  
+
   // Define relative anchor points
   const anchors = [
     { x: 0, y: -ry, name: 'top' },
     { x: rx, y: 0, name: 'right' },
     { x: 0, y: ry, name: 'bottom' },
-    { x: -rx, y: 0, name: 'left' }
+    { x: -rx, y: 0, name: 'left' },
   ];
 
   // Rotate anchors based on object angle
@@ -188,11 +198,11 @@ export const getShapeAnchors = (obj) => {
   const cos = Math.cos(angleRad);
   const sin = Math.sin(angleRad);
 
-  return anchors.map(anchor => ({
+  return anchors.map((anchor) => ({
     x: center.x + (anchor.x * cos - anchor.y * sin),
     y: center.y + (anchor.x * sin + anchor.y * cos),
     name: anchor.name,
-    ownerId: obj.data?.id
+    ownerId: obj.data?.id,
   }));
 };
 
@@ -201,31 +211,31 @@ export const getShapeAnchors = (obj) => {
  */
 export const updateConnections = (canvas, obj) => {
   if (!canvas || !obj || !obj.data?.id) return;
-  
+
   const objId = obj.data.id;
   const anchors = getShapeAnchors(obj);
-  
-  canvas.getObjects().forEach(o => {
+
+  canvas.getObjects().forEach((o) => {
     if (o.type === 'line' && o.data?.connector) {
       let changed = false;
-      
+
       // Check if this line is connected to the moved object at either end
       if (o.data.sourceId === objId) {
-        const anchor = anchors.find(a => a.name === o.data.sourceAnchor);
+        const anchor = anchors.find((a) => a.name === o.data.sourceAnchor);
         if (anchor) {
           o.set({ x1: anchor.x, y1: anchor.y });
           changed = true;
         }
       }
-      
+
       if (o.data.targetId === objId) {
-        const anchor = anchors.find(a => a.name === o.data.targetAnchor);
+        const anchor = anchors.find((a) => a.name === o.data.targetAnchor);
         if (anchor) {
           o.set({ x2: anchor.x, y2: anchor.y });
           changed = true;
         }
       }
-      
+
       if (changed) {
         o.setCoords();
       }
@@ -451,14 +461,17 @@ export const createInteractiveShape = ({ type, id, x, y, textColor }) => {
         ...common,
       });
     case 'star':
-      return new Path('M 50 0 L 61 35 L 98 35 L 68 57 L 79 91 L 50 70 L 21 91 L 32 57 L 2 35 L 39 35 Z', {
-        fill: 'transparent',
-        stroke: '#000000',
-        strokeWidth: 2,
-        scaleX: 0.01,
-        scaleY: 0.01,
-        ...common,
-      });
+      return new Path(
+        'M 50 0 L 61 35 L 98 35 L 68 57 L 79 91 L 50 70 L 21 91 L 32 57 L 2 35 L 39 35 Z',
+        {
+          fill: 'transparent',
+          stroke: '#000000',
+          strokeWidth: 2,
+          scaleX: 0.01,
+          scaleY: 0.01,
+          ...common,
+        },
+      );
     case 'arrow':
       return new Path('M 0 50 L 70 50 L 70 25 L 120 60 L 70 95 L 70 70 L 0 70 Z', {
         fill: 'transparent',

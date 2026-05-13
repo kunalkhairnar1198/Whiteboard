@@ -17,7 +17,14 @@ export const useCanvasInstance = (
   const [isCanvasReady, setIsCanvasReady] = useState(false);
 
   useEffect(() => {
-    console.warn('🔧 [useCanvasInstance] effect running, hasEl?', Boolean(canvasElRef.current), 'hasCanvas?', Boolean(canvasRef.current), 'hasEngine?', Boolean(engine));
+    console.warn(
+      '🔧 [useCanvasInstance] effect running, hasEl?',
+      Boolean(canvasElRef.current),
+      'hasCanvas?',
+      Boolean(canvasRef.current),
+      'hasEngine?',
+      Boolean(engine),
+    );
     if (!canvasElRef.current || canvasRef.current) return undefined;
     canvasRef.current = new FabricCanvas(canvasElRef.current, {
       width: initialCanvasSize.width,

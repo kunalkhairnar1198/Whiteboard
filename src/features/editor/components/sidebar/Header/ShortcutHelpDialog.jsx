@@ -147,44 +147,44 @@ const ShortcutHelpDialog = () => {
         <DialogHeader className="shrink-0 border-b px-6 py-5">
           <DialogTitle>Keyboard shortcuts and editing help</DialogTitle>
           <DialogDescription>
-            Use these shortcuts to move faster in the editor. `Cmd` works on macOS and `Ctrl`
-            works on Windows and Linux.
+            Use these shortcuts to move faster in the editor. `Cmd` works on macOS and `Ctrl` works
+            on Windows and Linux.
           </DialogDescription>
         </DialogHeader>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
           <div className="space-y-6">
-          {shortcutSections.map((section) => (
-            <section key={section.title} className="space-y-3">
-              <div>
-                <h3 className="text-sm font-semibold tracking-tight">{section.title}</h3>
-                <p className="text-xs text-muted-foreground">
-                  What the shortcut does and why it exists in the workflow.
-                </p>
-              </div>
+            {shortcutSections.map((section) => (
+              <section key={section.title} className="space-y-3">
+                <div>
+                  <h3 className="text-sm font-semibold tracking-tight">{section.title}</h3>
+                  <p className="text-xs text-muted-foreground">
+                    What the shortcut does and why it exists in the workflow.
+                  </p>
+                </div>
 
-              <div className="space-y-3">
-                {section.items.map((item) => (
-                  <div
-                    key={`${section.title}-${item.action}`}
-                    className="grid gap-3 rounded-lg border bg-card p-4 md:grid-cols-[220px_minmax(0,1fr)]"
-                  >
-                    <div className="flex flex-wrap items-center gap-2">
-                      {item.keys.map((key) => (
-                        <React.Fragment key={`${item.action}-${key}`}>
-                          <ShortcutPill>{key}</ShortcutPill>
-                        </React.Fragment>
-                      ))}
+                <div className="space-y-3">
+                  {section.items.map((item) => (
+                    <div
+                      key={`${section.title}-${item.action}`}
+                      className="grid gap-3 rounded-lg border bg-card p-4 md:grid-cols-[220px_minmax(0,1fr)]"
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        {item.keys.map((key) => (
+                          <React.Fragment key={`${item.action}-${key}`}>
+                            <ShortcutPill>{key}</ShortcutPill>
+                          </React.Fragment>
+                        ))}
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium">{item.action}</p>
+                        <p className="text-sm text-muted-foreground">{item.reason}</p>
+                      </div>
                     </div>
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium">{item.action}</p>
-                      <p className="text-sm text-muted-foreground">{item.reason}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ))}
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
         </div>
       </DialogContent>

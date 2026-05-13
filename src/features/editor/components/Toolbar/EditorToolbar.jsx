@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
 import { cn } from '@/lib/utils';
-import { 
-  MousePointer2, 
-  Hand, 
-  PenTool, 
-  Pencil, 
-  Eraser, 
-  Type, 
+import {
+  MousePointer2,
+  Hand,
+  PenTool,
+  Pencil,
+  Eraser,
+  Type,
   Image as ImageIcon,
   Square,
   Circle,
@@ -14,14 +14,21 @@ import {
   Star,
   ArrowRight,
   Minus,
-  Hexagon
+  Hexagon,
 } from 'lucide-react';
 
-const ToolbarButton = ({ icon: Icon, label, isActive, onClick, activeColor = "primary", orientation = "vertical" }) => {
+const ToolbarButton = ({
+  icon: Icon,
+  label,
+  isActive,
+  onClick,
+  activeColor = 'primary',
+  orientation = 'vertical',
+}) => {
   const activeClasses = {
-    primary: "bg-primary text-primary-foreground shadow-lg shadow-primary/20",
-    secondary: "bg-secondary text-secondary-foreground shadow-md shadow-secondary/20",
-    accent: "bg-accent text-accent-foreground shadow-lg shadow-accent/20",
+    primary: 'bg-primary text-primary-foreground shadow-lg shadow-primary/20',
+    secondary: 'bg-secondary text-secondary-foreground shadow-md shadow-secondary/20',
+    accent: 'bg-accent text-accent-foreground shadow-lg shadow-accent/20',
   };
 
   return (
@@ -29,38 +36,47 @@ const ToolbarButton = ({ icon: Icon, label, isActive, onClick, activeColor = "pr
       onClick={onClick}
       title={label}
       className={cn(
-        "relative p-3 rounded-xl transition-all duration-300 group",
-        isActive 
-          ? `${activeClasses[activeColor]} scale-110 z-10` 
-          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+        'relative p-3 rounded-xl transition-all duration-300 group',
+        isActive
+          ? `${activeClasses[activeColor]} scale-110 z-10`
+          : 'text-muted-foreground hover:bg-muted hover:text-foreground',
       )}
     >
-      <Icon className={cn("w-5 h-5 transition-transform duration-300", !isActive && "group-hover:scale-110")} />
+      <Icon
+        className={cn(
+          'w-5 h-5 transition-transform duration-300',
+          !isActive && 'group-hover:scale-110',
+        )}
+      />
       {isActive && (
-        <span className={cn(
-          "absolute bg-primary-foreground rounded-full",
-          orientation === 'vertical' 
-            ? "-left-1 top-1/2 -translate-y-1/2 w-1 h-6" 
-            : "left-1/2 -bottom-1 -translate-x-1/2 w-6 h-1"
-        )} />
+        <span
+          className={cn(
+            'absolute bg-primary-foreground rounded-full',
+            orientation === 'vertical'
+              ? '-left-1 top-1/2 -translate-y-1/2 w-1 h-6'
+              : 'left-1/2 -bottom-1 -translate-x-1/2 w-6 h-1',
+          )}
+        />
       )}
     </button>
   );
 };
 
-const Separator = ({ orientation = "vertical" }) => (
-  <div className={cn(
-    "bg-border/60 mx-auto",
-    orientation === 'vertical' ? "h-[1px] w-8 my-2" : "w-[1px] h-8 mx-2"
-  )} />
+const Separator = ({ orientation = 'vertical' }) => (
+  <div
+    className={cn(
+      'bg-border/60 mx-auto',
+      orientation === 'vertical' ? 'h-[1px] w-8 my-2' : 'w-[1px] h-8 mx-2',
+    )}
+  />
 );
 
-const EditorToolbar = ({ 
-  currentTool, 
-  setCurrentTool, 
+const EditorToolbar = ({
+  currentTool,
+  setCurrentTool,
   canvas,
   onImageUpload,
-  orientation = "vertical" // "vertical" or "horizontal"
+  orientation = 'vertical', // "vertical" or "horizontal"
 }) => {
   const tools = [
     { id: 'select', icon: MousePointer2, label: 'Select (V)', color: 'primary' },
@@ -88,22 +104,26 @@ const EditorToolbar = ({
     }
   };
 
-  const containerClasses = orientation === 'vertical'
-    ? "left-6 top-1/2 -translate-y-1/2 flex-col"
-    : "bottom-6 left-1/2 -translate-x-1/2 flex-row";
+  const containerClasses =
+    orientation === 'vertical'
+      ? 'left-6 top-1/2 -translate-y-1/2 flex-col'
+      : 'bottom-6 left-1/2 -translate-x-1/2 flex-row';
 
-  const innerClasses = orientation === 'vertical'
-    ? "flex-col gap-2 max-h-[85vh] overflow-y-auto"
-    : "flex-row gap-2 max-w-[90vw] overflow-x-auto";
+  const innerClasses =
+    orientation === 'vertical'
+      ? 'flex-col gap-2 max-h-[85vh] overflow-y-auto'
+      : 'flex-row gap-2 max-w-[90vw] overflow-x-auto';
 
   return (
-    <div className={cn("absolute z-50 flex items-center", containerClasses)}>
-      <div className={cn(
-        "flex p-2.5 bg-card/95 backdrop-blur-md border border-border",
-        "shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[24px] items-center",
-        "no-scrollbar",
-        innerClasses
-      )}>
+    <div className={cn('absolute z-50 flex items-center', containerClasses)}>
+      <div
+        className={cn(
+          'flex p-2.5 bg-card/95 backdrop-blur-md border border-border',
+          'shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[24px] items-center',
+          'no-scrollbar',
+          innerClasses,
+        )}
+      >
         <div className={`flex gap-1 ${orientation === 'vertical' ? 'flex-col' : 'flex-row'}`}>
           {tools.map((tool) => (
             <ToolbarButton
@@ -117,9 +137,9 @@ const EditorToolbar = ({
             />
           ))}
         </div>
-        
+
         <Separator orientation={orientation} />
-        
+
         <div className={`flex gap-1 ${orientation === 'vertical' ? 'flex-col' : 'flex-row'}`}>
           {shapes.map((shape) => (
             <ToolbarButton
@@ -133,9 +153,9 @@ const EditorToolbar = ({
             />
           ))}
         </div>
-        
+
         <Separator orientation={orientation} />
-        
+
         <ToolbarButton
           icon={ImageIcon}
           label="Upload Image"
@@ -153,7 +173,7 @@ const EditorToolbar = ({
           onChange={onImageUpload}
         />
       </div>
-      
+
       {/* Visual indicator for current tool */}
       {/* <div className={`
         px-3 py-1 bg-slate-900/10 backdrop-blur-sm rounded-full border border-slate-900/5

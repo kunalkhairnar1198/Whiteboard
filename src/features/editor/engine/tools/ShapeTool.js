@@ -90,7 +90,11 @@ export class ShapeTool extends Tool {
   _clearAnchors() {
     const fabric = this.engine.canvas.fabric;
     this._anchorHelpers.forEach((h) => {
-      try { if (fabric) fabric.remove(h); } catch (_err) { /* ignore */ }
+      try {
+        if (fabric) fabric.remove(h);
+      } catch (_err) {
+        /* ignore */
+      }
     });
     this._anchorHelpers = [];
     if (fabric) this.engine.render.schedule();

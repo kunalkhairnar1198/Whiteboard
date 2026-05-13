@@ -86,7 +86,9 @@ const PropertiesPanel = () => {
       {/* Fill Color */}
       {selectedElement.type !== 'line' && selectedElement.type !== 'image' && (
         <div>
-          <label className="block mb-2 font-semibold text-muted-foreground text-xs">Fill Color:</label>
+          <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+            Fill Color:
+          </label>
           <input
             type="color"
             value={normalizeColorValue(selectedElement.fill, '#ffffff')}
@@ -147,7 +149,10 @@ const PropertiesPanel = () => {
               />
             </div>
           )}
-          <GradientControls selectedElement={selectedElement} handleElementChange={handleElementChange} />
+          <GradientControls
+            selectedElement={selectedElement}
+            handleElementChange={handleElementChange}
+          />
         </div>
       )}
 
@@ -155,7 +160,9 @@ const PropertiesPanel = () => {
       {!isTextElement && (
         <>
           <div>
-            <label className="block mb-2 font-semibold text-muted-foreground text-xs">Stroke Color:</label>
+            <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+              Stroke Color:
+            </label>
             <input
               type="color"
               value={selectedElement.stroke || '#000000'}
@@ -227,7 +234,9 @@ const PropertiesPanel = () => {
           />
         </div>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">Blur: {selectedElement.shadow?.blur || 0}</label>
+          <label className="block mb-1 text-gray-500 text-xs">
+            Blur: {selectedElement.shadow?.blur || 0}
+          </label>
           <input
             type="range"
             min="0"
@@ -298,7 +307,12 @@ const PropertiesPanel = () => {
       </div>
 
       {/* Text Properties */}
-      {isTextElement && <TextProperties selectedElement={selectedElement} handleElementChange={handleElementChange} />}
+      {isTextElement && (
+        <TextProperties
+          selectedElement={selectedElement}
+          handleElementChange={handleElementChange}
+        />
+      )}
 
       {/* Polygon Sides */}
       {selectedElement.type === 'polygon' && (
@@ -326,7 +340,10 @@ const PropertiesPanel = () => {
 
       {/* Frame */}
       {selectedElement.type === 'frame' && (
-        <FrameProperties selectedElement={selectedElement} handleElementChange={handleElementChange} />
+        <FrameProperties
+          selectedElement={selectedElement}
+          handleElementChange={handleElementChange}
+        />
       )}
 
       {/* Image hint */}
@@ -365,7 +382,9 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
     <div className="space-y-3">
       <h4 className="font-semibold text-muted-foreground text-xs">Text Properties</h4>
       <div>
-        <label className="block mb-2 font-semibold text-muted-foreground text-xs">Text Content:</label>
+        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+          Text Content:
+        </label>
         <textarea
           value={selectedElement.text || ''}
           onChange={(e) => handleElementChange(id, { text: e.target.value })}
@@ -387,7 +406,9 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         />
       </div>
       <div>
-        <label className="block mb-2 font-semibold text-muted-foreground text-xs">Font Family:</label>
+        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+          Font Family:
+        </label>
         <select
           value={selectedElement.fontFamily || 'Arial'}
           onChange={(e) => handleElementChange(id, { fontFamily: e.target.value })}
@@ -404,7 +425,9 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         </select>
       </div>
       <div>
-        <label className="block mb-2 font-semibold text-muted-foreground text-xs">Font Weight:</label>
+        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+          Font Weight:
+        </label>
         <select
           value={selectedElement.fontWeight || 'normal'}
           onChange={(e) => handleElementChange(id, { fontWeight: e.target.value })}
@@ -422,7 +445,9 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         </select>
       </div>
       <div>
-        <label className="block mb-2 font-semibold text-muted-foreground text-xs">Font Style:</label>
+        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+          Font Style:
+        </label>
         <select
           value={selectedElement.fontStyle || 'normal'}
           onChange={(e) => handleElementChange(id, { fontStyle: e.target.value })}
@@ -434,7 +459,9 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         </select>
       </div>
       <div>
-        <label className="block mb-2 font-semibold text-muted-foreground text-xs">Text Align:</label>
+        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+          Text Align:
+        </label>
         <div className="gap-2 grid grid-cols-4">
           {['left', 'center', 'right', 'justify'].map((align) => (
             <button
@@ -452,7 +479,9 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         </div>
       </div>
       <div>
-        <label className="block mb-2 font-semibold text-muted-foreground text-xs">Text Decoration:</label>
+        <label className="block mb-2 font-semibold text-muted-foreground text-xs">
+          Text Decoration:
+        </label>
         <div className="gap-2 grid grid-cols-4">
           {[
             { value: 'underline', label: 'U' },
@@ -464,7 +493,7 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
               <button
                 key={decor.value}
                 onClick={() => {
-                  let decoration = selectedElement.textDecoration || '';
+                  const decoration = selectedElement.textDecoration || '';
                   let parts = decoration.split(' ').filter(Boolean);
                   if (isActive) parts = parts.filter((d) => d !== decor.value);
                   else parts.push(decor.value);
@@ -588,15 +617,15 @@ const FrameProperties = ({ selectedElement, handleElementChange }) => {
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Corner Radius: {selectedElement.rx || 0}</label>
+        <label className="block mb-1 text-gray-500 text-xs">
+          Corner Radius: {selectedElement.rx || 0}
+        </label>
         <input
           type="range"
           min="0"
           max="50"
           value={selectedElement.rx || 0}
-          onChange={(e) =>
-            handleElementChange(id, { rx: +e.target.value, ry: +e.target.value })
-          }
+          onChange={(e) => handleElementChange(id, { rx: +e.target.value, ry: +e.target.value })}
           className="w-full"
         />
       </div>
@@ -681,11 +710,21 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
         <div className="gap-2 grid grid-cols-2 mt-2">
           <div>
             <label className="block mb-1 text-gray-500 text-xs">From</label>
-            <input type="color" value={from} onChange={(e) => setFrom(e.target.value)} className="w-full h-8" />
+            <input
+              type="color"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              className="w-full h-8"
+            />
           </div>
           <div>
             <label className="block mb-1 text-gray-500 text-xs">To</label>
-            <input type="color" value={to} onChange={(e) => setTo(e.target.value)} className="w-full h-8" />
+            <input
+              type="color"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              className="w-full h-8"
+            />
           </div>
           <div className="col-span-2">
             <label className="block mb-1 text-gray-500 text-xs">Type</label>
@@ -699,7 +738,10 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
             </select>
           </div>
           <div className="flex gap-2 col-span-2 mt-2">
-            <button onClick={applyGradient} className="flex-1 bg-blue-600 px-3 py-2 rounded text-white">
+            <button
+              onClick={applyGradient}
+              className="flex-1 bg-blue-600 px-3 py-2 rounded text-white"
+            >
               Apply
             </button>
             <button onClick={removeGradient} className="flex-1 bg-gray-100 px-3 py-2 rounded">

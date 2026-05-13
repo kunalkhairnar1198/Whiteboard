@@ -29,10 +29,7 @@ const ToolSettingsPanel = ({ currentTool }) => {
 
 const useToolSettingsUpdater = () => {
   const dispatch = useDispatch();
-  return useCallback(
-    (patch) => dispatch(toolActions.toolSettingsUpdated(patch)),
-    [dispatch],
-  );
+  return useCallback((patch) => dispatch(toolActions.toolSettingsUpdated(patch)), [dispatch]);
 };
 
 const BrushSettings = memo(() => {
@@ -124,7 +121,9 @@ const BrushSettings = memo(() => {
           />
         </div>
       </div>
-      <p className="text-gray-500 text-xs pt-2">Tip: changes apply immediately while in drawing mode.</p>
+      <p className="text-gray-500 text-xs pt-2">
+        Tip: changes apply immediately while in drawing mode.
+      </p>
     </div>
   );
 });
@@ -163,7 +162,9 @@ const EraserSettings = memo(() => {
             +
           </button>
         </div>
-        <p className="pt-1 text-gray-500 text-xs">Use the buttons or slider to change eraser size.</p>
+        <p className="pt-1 text-gray-500 text-xs">
+          Use the buttons or slider to change eraser size.
+        </p>
       </div>
     </div>
   );

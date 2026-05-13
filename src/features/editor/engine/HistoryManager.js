@@ -33,12 +33,17 @@ export class HistoryManager {
 
   push(state) {
     if (state == null) return;
-    const payload = typeof state === 'string' ? state : (() => {
-      try { return JSON.stringify(state); } catch (err) {
-        console.error('HistoryManager: failed to serialize state', err);
-        return null;
-      }
-    })();
+    const payload =
+      typeof state === 'string'
+        ? state
+        : (() => {
+            try {
+              return JSON.stringify(state);
+            } catch (err) {
+              console.error('HistoryManager: failed to serialize state', err);
+              return null;
+            }
+          })();
     if (!payload) return;
 
     if (this._step >= 0 && this._entries[this._step].payload === payload) return;

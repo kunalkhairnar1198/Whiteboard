@@ -45,23 +45,38 @@ const LayerItem = ({
 
   const handleSelect = useCallback(() => onSelect?.(element.id), [onSelect, element.id]);
   const handleToggleVisibility = useCallback(
-    (e) => { e.stopPropagation(); toggleLayerVisibility?.(element.id); },
+    (e) => {
+      e.stopPropagation();
+      toggleLayerVisibility?.(element.id);
+    },
     [toggleLayerVisibility, element.id],
   );
   const handleToggleLock = useCallback(
-    (e) => { e.stopPropagation(); toggleLayerLock?.(element.id); },
+    (e) => {
+      e.stopPropagation();
+      toggleLayerLock?.(element.id);
+    },
     [toggleLayerLock, element.id],
   );
   const handleMoveUp = useCallback(
-    (e) => { e.stopPropagation(); moveLayer?.(element.id, 'up'); },
+    (e) => {
+      e.stopPropagation();
+      moveLayer?.(element.id, 'up');
+    },
     [moveLayer, element.id],
   );
   const handleMoveDown = useCallback(
-    (e) => { e.stopPropagation(); moveLayer?.(element.id, 'down'); },
+    (e) => {
+      e.stopPropagation();
+      moveLayer?.(element.id, 'down');
+    },
     [moveLayer, element.id],
   );
   const handleDelete = useCallback(
-    (e) => { e.stopPropagation(); deleteElement?.(element.id); },
+    (e) => {
+      e.stopPropagation();
+      deleteElement?.(element.id);
+    },
     [deleteElement, element.id],
   );
 
@@ -79,10 +94,11 @@ const LayerItem = ({
       {...attributes}
       {...listeners}
       className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all cursor-pointer ${
-        isOverlay ? 'border-blue-600 bg-white shadow-xl scale-105' :
-        isSelected
-          ? 'border-blue-500 bg-blue-50'
-          : 'border-gray-200 hover:border-gray-300 bg-white'
+        isOverlay
+          ? 'border-blue-600 bg-white shadow-xl scale-105'
+          : isSelected
+            ? 'border-blue-500 bg-blue-50'
+            : 'border-gray-200 hover:border-gray-300 bg-white'
       }`}
       onClick={isOverlay ? undefined : handleSelect}
     >
@@ -92,18 +108,18 @@ const LayerItem = ({
             {element.type === 'rectangle'
               ? '▭'
               : element.type === 'circle'
-              ? '●'
-              : element.type === 'triangle'
-              ? '▲'
-              : element.type === 'star'
-              ? '★'
-              : element.type === 'textbox' || element.type === 'text'
-              ? 'T'
-              : element.type === 'image'
-              ? '🖼'
-              : element.type === 'path'
-              ? '✏'
-              : '◆'}
+                ? '●'
+                : element.type === 'triangle'
+                  ? '▲'
+                  : element.type === 'star'
+                    ? '★'
+                    : element.type === 'textbox' || element.type === 'text'
+                      ? 'T'
+                      : element.type === 'image'
+                        ? '🖼'
+                        : element.type === 'path'
+                          ? '✏'
+                          : '◆'}
           </span>
           <span className="text-sm font-medium text-gray-700 truncate">
             {isEditing ? (

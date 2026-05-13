@@ -8,15 +8,15 @@ This project is a professional-grade design editor built with React 19 and Fabri
 
 ## Core Technologies
 
-| Layer              | Technology                                        |
-| :----------------- | :------------------------------------------------ |
-| **UI Framework**   | React 19 (Functional components, hooks)           |
-| **Build Tool**     | Vite 7                                            |
-| **Canvas Engine**  | Fabric.js 6.7.1 — object-based canvas management  |
-| **State**          | Redux Toolkit — Reactive UI state                 |
-| **Drag & Drop**    | `@dnd-kit/core` + `@dnd-kit/sortable`             |
-| **URL State**      | `nuqs` — URL-driven view parameters                |
-| **Persistence**    | LocalStorage auto-save via PersistenceService     |
+| Layer             | Technology                                       |
+| :---------------- | :----------------------------------------------- |
+| **UI Framework**  | React 19 (Functional components, hooks)          |
+| **Build Tool**    | Vite 7                                           |
+| **Canvas Engine** | Fabric.js 6.7.1 — object-based canvas management |
+| **State**         | Redux Toolkit — Reactive UI state                |
+| **Drag & Drop**   | `@dnd-kit/core` + `@dnd-kit/sortable`            |
+| **URL State**     | `nuqs` — URL-driven view parameters              |
+| **Persistence**   | LocalStorage auto-save via PersistenceService    |
 
 ---
 
@@ -66,6 +66,7 @@ src/
 ### Editor Page (`src/pages/Editor/Editor.jsx`)
 
 The main container for the workspace. It orchestrates the lifecycle of the `EditorEngine`:
+
 - Initializes the engine via `useEditor`.
 - Provides `EngineContext` to the sidebar and toolbar.
 - Sets up the `engineSync` bridge to mirror engine state into Redux.
@@ -74,6 +75,7 @@ The main container for the workspace. It orchestrates the lifecycle of the `Edit
 ### Layers Panel (`src/features/editor/components/sidebar/RightSidebar/LayersPanel.jsx`)
 
 A high-performance layer list using `@dnd-kit`:
+
 - **State Source**: Reads from Redux `selectLayerList`.
 - **Interactions**: Drag-and-drop reordering, visibility toggle, locking, and renaming.
 - **Engine Sync**: Reordering events are sent directly to `engine.layers.setOrder()`.
@@ -97,7 +99,8 @@ We use a one-way synchronization bridge (`engineSync.js`) to keep the UI reactiv
 
 ### Undo/Redo Flow
 
-The `HistoryManager` maintains a snapshot buffer. 
+The `HistoryManager` maintains a snapshot buffer.
+
 1. `safeSaveState()` serializes the canvas JSON.
 2. The snapshot is pushed to the buffer and written to `localStorage`.
 3. On `undo()`, the previous snapshot is loaded back into the canvas, and all managers are `refresh()`ed to sync state.

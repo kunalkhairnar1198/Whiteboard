@@ -6,7 +6,8 @@
  * this to createImageBitmap + OffscreenCanvas + Blob storage.
  */
 
-export const isImageFile = (file) => Boolean(file && typeof file.type === 'string' && file.type.startsWith('image/'));
+export const isImageFile = (file) =>
+  Boolean(file && typeof file.type === 'string' && file.type.startsWith('image/'));
 
 export const readFileAsDataURL = (file) =>
   new Promise((resolve, reject) => {

@@ -44,26 +44,28 @@ export const useCanvasPersistence = ({
   // Restore canvas from a JSON payload, syncing layer projection,
   // selection, and element counter. Gates engine auto-save while in
   // flight via persistence.setLoading.
-  const restoreCanvasState = useCallback(async (state) => {
-    if (!state || !canvas.current) return;
-    engine.persistence.setLoading(true);
-    try {
-      // Detach layer tracking so per-object adds during load don't
-      // fire N dispatches; reattach refreshes in one shot.
-      engine.layers.detach();
-      await canvas.current.loadFromJSON(state);
-      canvas.current.requestRenderAll();
-      canvas.current.discardActiveObject();
-      engine.layers.attach(canvas.current);
-      engine.selection.clear();
-      syncElementCounter(getNextElementCounterFromState(state));
-    } catch (error) {
-      console.error('Error restoring canvas state:', error);
-    } finally {
-      engine.persistence.setLoading(false);
-    }
-  }, [engine, canvas, syncElementCounter]);
-
+  const restoreCanvasState = useCallback(
+    async (state) => {
+      if (!state || !canvas.current) return;
+      engine.persistence.setLoading(true);
+      try {
+        // Detach layer tracking so per-object adds during load don't
+        // fire N dispatches; reattach refreshes in one shot.
+        engine.layers.detach();
+        await canvas.current.loadFromJSON(state);
+        canvas.current.requestRenderAll();
+        canvas.current.discardActiveObject();
+        engine.layers.attach(canvas.current);
+        engine.selection.clear();
+        syncElementCounter(getNextElementCounterFromState(state));
+      } catch (error) {
+        console.error('Error restoring canvas state:', error);
+      } finally {
+        engine.persistence.setLoading(false);
+      }
+    },
+    [engine, canvas, syncElementCounter],
+  );
 
   const handleUndo = useCallback(() => {
     const previousState = history.undo();
@@ -75,30 +77,36 @@ export const useCanvasPersistence = ({
     if (nextState) restoreCanvasState(nextState);
   }, [history, restoreCanvasState]);
 
-  const loadWorkspaceFromFile = useCallback((e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      try {
-        const json = JSON.parse(event.target.result);
-        await restoreCanvasState(json);
-        setTemplateName(file.name.replace('.json', ''));
-      } catch (err) {
-        console.error('Failed to load workspace file:', err);
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-  }, [restoreCanvasState, setTemplateName]);
+  const loadWorkspaceFromFile = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        try {
+          const json = JSON.parse(event.target.result);
+          await restoreCanvasState(json);
+          setTemplateName(file.name.replace('.json', ''));
+        } catch (err) {
+          console.error('Failed to load workspace file:', err);
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    },
+    [restoreCanvasState, setTemplateName],
+  );
 
-  const loadSavedDiagram = useCallback(async (name) => {
-    const state = loadCanvasState(name);
-    if (state) {
-      await restoreCanvasState(state);
-      setTemplateName(name);
-    }
-  }, [restoreCanvasState, setTemplateName]);
+  const loadSavedDiagram = useCallback(
+    async (name) => {
+      const state = loadCanvasState(name);
+      if (state) {
+        await restoreCanvasState(state);
+        setTemplateName(name);
+      }
+    },
+    [restoreCanvasState, setTemplateName],
+  );
 
   // Initial baseline save once the canvas is ready (so undo always has
   // something to fall back to). scheduleSave already gates on

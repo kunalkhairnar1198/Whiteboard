@@ -28,14 +28,14 @@ A browser-based SVG pen tool that mirrors Figma's core pen tool behavior — anc
 
 ### Key Behaviors to Replicate
 
-| Figma Behavior | Implementation Target |
-|---|---|
-| Click → corner point | `mousedown` on canvas, push `{x, y, type:'corner'}` to path |
-| Click + drag → smooth point | Drag distance > 4px triggers handle pull |
-| Alt + drag handle → break symmetry | Store `handleIn` and `handleOut` independently |
-| Hover first point → close path | Distance check on `mousemove` near origin |
-| Double-click shape → edit mode | Mode toggle, reveal all anchor points |
-| Per-point corner radius | Store `cornerRadius` per anchor node |
+| Figma Behavior                     | Implementation Target                                       |
+| ---------------------------------- | ----------------------------------------------------------- |
+| Click → corner point               | `mousedown` on canvas, push `{x, y, type:'corner'}` to path |
+| Click + drag → smooth point        | Drag distance > 4px triggers handle pull                    |
+| Alt + drag handle → break symmetry | Store `handleIn` and `handleOut` independently              |
+| Hover first point → close path     | Distance check on `mousemove` near origin                   |
+| Double-click shape → edit mode     | Mode toggle, reveal all anchor points                       |
+| Per-point corner radius            | Store `cornerRadius` per anchor node                        |
 
 ### Tech Assumptions
 
@@ -66,6 +66,7 @@ I want to add a Figma-style pen tool. Audit the codebase and tell me:
 ```
 
 **Deliverables:**
+
 - [ ] Integration point identified
 - [ ] Existing mouse event system documented
 - [ ] Tool mode enum/system understood
@@ -89,9 +90,9 @@ interface AnchorPoint {
   x: number;
   y: number;
   type: PointType;
-  handleIn:  { x: number; y: number } | null;   // incoming bezier handle
-  handleOut: { x: number; y: number } | null;   // outgoing bezier handle
-  cornerRadius?: number;                          // per-point corner radius
+  handleIn: { x: number; y: number } | null; // incoming bezier handle
+  handleOut: { x: number; y: number } | null; // outgoing bezier handle
+  cornerRadius?: number; // per-point corner radius
 }
 
 // a complete vector path
@@ -116,7 +117,7 @@ type PenMode = 'draw' | 'edit';
 interface PenToolState {
   mode: PenMode;
   activePath: VectorPath | null;
-  selectedPoints: string[];           // anchor point IDs
+  selectedPoints: string[]; // anchor point IDs
   hoveredPoint: string | null;
   isDraggingHandle: boolean;
   previewPoint: { x: number; y: number } | null;
@@ -134,6 +135,7 @@ and explain each field's purpose."
 ```
 
 **Deliverables:**
+
 - [ ] `AnchorPoint` type finalized
 - [ ] `VectorPath` type finalized
 - [ ] `PenToolState` type finalized
@@ -177,6 +179,7 @@ overlay. Show me the folder tree with a one-line comment per file."
 ```
 
 **Deliverables:**
+
 - [ ] All folders created
 - [ ] All files stubbed with empty exports
 - [ ] Index file with public API
@@ -200,6 +203,7 @@ in-progress paths when accidentally switching."
 ```
 
 **Deliverables:**
+
 - [ ] `'pen'` added to tool enum
 - [ ] Keyboard shortcut `P` activates pen tool
 - [ ] Tool deactivation cleans up handlers
@@ -242,6 +246,7 @@ visual hover indicator logic (show green circle on first point)."
 ```
 
 **Deliverables:**
+
 - [ ] `mousedown` places `AnchorPoint` correctly
 - [ ] First-point hover detection works
 - [ ] Path closes on first-point click
@@ -284,6 +289,7 @@ state correctly."
 ```
 
 **Deliverables:**
+
 - [ ] Click + drag pulls symmetric handles
 - [ ] `handleIn` and `handleOut` computed correctly
 - [ ] Alt key breaks handle symmetry mid-drag
@@ -315,6 +321,7 @@ M 100 100 C 120 80 180 80 200 100 L 300 200 Z
 ```
 
 **Deliverables:**
+
 - [ ] `buildSVGPath()` handles all 4 segment types
 - [ ] Closed paths append `Z`
 - [ ] Unit tests pass for corner, smooth, asymmetric, disconnected
@@ -336,6 +343,7 @@ when the next point is placed. Use React + SVG."
 ```
 
 **Deliverables:**
+
 - [ ] Dashed preview line follows cursor
 - [ ] Preview uses `handleOut` of last point for curve shape
 - [ ] Preview disappears on click (replaced by real segment)
@@ -361,6 +369,7 @@ Show me the full mode transition logic."
 ```
 
 **Deliverables:**
+
 - [ ] Double-click activates edit mode for clicked path
 - [ ] All anchor points rendered as 8×8px squares
 - [ ] Bezier handles rendered as 6px circles with lines
@@ -383,6 +392,7 @@ If snap is enabled, snap to the 20px grid. Support multi-select
 ```
 
 **Deliverables:**
+
 - [ ] Single anchor drag moves point + handles
 - [ ] Shift+click adds to selection
 - [ ] Multi-select drag moves all selected points
@@ -407,6 +417,7 @@ Show the full implementation."
 ```
 
 **Deliverables:**
+
 - [ ] `smooth` handles mirror correctly
 - [ ] `asymmetric` handles mirror direction only
 - [ ] `disconnected` handles move independently
@@ -438,6 +449,7 @@ of an open path."
 ```
 
 **Deliverables:**
+
 - [ ] Hover over segment shows `+` cursor
 - [ ] Click on segment inserts point on curve
 - [ ] New point preserves curve shape (correct bezier split)
@@ -461,6 +473,7 @@ Show the full conversion logic for each transition."
 ```
 
 **Deliverables:**
+
 - [ ] Alt-click toggles corner ↔ smooth
 - [ ] Right-click context menu shows point type options
 - [ ] Correct handles added/removed on conversion
@@ -481,6 +494,7 @@ Handle: joining start-to-start, end-to-end, and start-to-end."
 ```
 
 **Deliverables:**
+
 - [ ] Select two endpoints from different paths
 - [ ] Cmd+J joins them into one path
 - [ ] Junction point placed at midpoint
@@ -507,6 +521,7 @@ The overlay sits on top of the main canvas as a full-size SVG."
 ```
 
 **Deliverables:**
+
 - [ ] Completed paths render with correct fill/stroke
 - [ ] In-progress path renders as dashed preview
 - [ ] Edit mode shows all anchor point UI elements
@@ -530,6 +545,7 @@ the path, path selection updates the panel."
 ```
 
 **Deliverables:**
+
 - [ ] Fill color synced to properties panel
 - [ ] Stroke width slider works
 - [ ] Stroke cap buttons work (3 options)
@@ -556,6 +572,7 @@ and the SVG path generation with arcs."
 ```
 
 **Deliverables:**
+
 - [ ] `cornerRadius` stored per `AnchorPoint`
 - [ ] Input shows in properties when anchor selected
 - [ ] SVG path generates arc for rounded corners
@@ -593,6 +610,7 @@ Show the constrained angle as a faint guide line."
 ```
 
 **Deliverables:**
+
 - [ ] Grid snap with toggle (Cmd+Shift+')
 - [ ] Visual crosshair at snap position
 - [ ] Point-to-point snap within 8px
@@ -605,21 +623,21 @@ Show the constrained angle as a faint guide line."
 
 Full keyboard shortcut system matching Figma's pen tool.
 
-| Shortcut | Action |
-|---|---|
-| `P` | Activate pen tool |
-| `Enter` | Finish open path |
-| `Escape` | Cancel segment / exit edit mode |
-| `Delete` | Remove selected points |
-| `Cmd+Z` | Undo last point |
-| `Shift+click` | Multi-select anchors |
-| `Alt+drag` | Break handle symmetry |
-| `Alt+click anchor` | Toggle corner/smooth |
-| `Shift+drag` | Constrain to 45° |
-| `Cmd+J` | **Join Path**: Merge two selected endpoints. |
-| `Cmd+B` | **Break Path**: Split a path at the selected node (opens closed shape or splits open path). |
-| **Select Endpoint + Click Canvas** | **Continue Path**: Switches to Draw Mode and extends from that node. |
-| `Cmd+Shift+'` | Toggle grid snap |
+| Shortcut                           | Action                                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------------------------- |
+| `P`                                | Activate pen tool                                                                           |
+| `Enter`                            | Finish open path                                                                            |
+| `Escape`                           | Cancel segment / exit edit mode                                                             |
+| `Delete`                           | Remove selected points                                                                      |
+| `Cmd+Z`                            | Undo last point                                                                             |
+| `Shift+click`                      | Multi-select anchors                                                                        |
+| `Alt+drag`                         | Break handle symmetry                                                                       |
+| `Alt+click anchor`                 | Toggle corner/smooth                                                                        |
+| `Shift+drag`                       | Constrain to 45°                                                                            |
+| `Cmd+J`                            | **Join Path**: Merge two selected endpoints.                                                |
+| `Cmd+B`                            | **Break Path**: Split a path at the selected node (opens closed shape or splits open path). |
+| **Select Endpoint + Click Canvas** | **Continue Path**: Switches to Draw Mode and extends from that node.                        |
+| `Cmd+Shift+'`                      | Toggle grid snap                                                                            |
 
 ```
 PROMPT 19-A · KEYBOARD SHORTCUTS
@@ -632,6 +650,7 @@ toggle point type). Use a keydown event listener that cleans up on tool deactiva
 ```
 
 **Deliverables:**
+
 - [ ] All shortcuts in table above implemented
 - [ ] Shortcuts only fire when pen tool is active
 - [ ] Modifier keys (Shift, Alt, Cmd) work correctly
@@ -653,6 +672,7 @@ dedicated pen tool history stack. Cmd+Z undoes one action, Cmd+Shift+Z redoes."
 ```
 
 **Deliverables:**
+
 - [ ] Every mutation pushes to undo stack
 - [ ] Cmd+Z undoes last action
 - [ ] Cmd+Shift+Z redoes
@@ -665,14 +685,14 @@ dedicated pen tool history stack. Cmd+Z undoes one action, Cmd+Shift+Z redoes."
 
 Match Figma's context-sensitive cursor behavior exactly.
 
-| Context | Cursor |
-|---|---|
-| Pen tool active, hovering canvas | Pen cursor (custom SVG) |
-| Hovering first point (close) | Pen with circle indicator |
-| Hovering existing anchor (edit) | Arrow with move indicator |
-| Over segment (add point) | Pen with `+` |
-| Dragging handle | Crosshair |
-| Edit mode, hovering segment | `+` cursor |
+| Context                          | Cursor                    |
+| -------------------------------- | ------------------------- |
+| Pen tool active, hovering canvas | Pen cursor (custom SVG)   |
+| Hovering first point (close)     | Pen with circle indicator |
+| Hovering existing anchor (edit)  | Arrow with move indicator |
+| Over segment (add point)         | Pen with `+`              |
+| Dragging handle                  | Crosshair                 |
+| Edit mode, hovering segment      | `+` cursor                |
 
 ```
 PROMPT 21-A · CURSOR SYSTEM
@@ -684,6 +704,7 @@ hovering (canvas, anchor, handle, segment, first-point), and active modifiers
 ```
 
 **Deliverables:**
+
 - [ ] Custom pen cursor SVG created
 - [ ] All cursor states in table above implemented
 - [ ] Cursor updates correctly on hover context change
@@ -712,12 +733,12 @@ entering edit mode, moving an anchor, deleting a point, undo/redo."
 
 **Test Coverage Targets:**
 
-| Area | Target |
-|---|---|
-| `buildSVGPath()` | 100% branch coverage |
-| `usePenTool` hook | 90%+ |
-| Mouse event handlers | 85%+ |
-| Point type conversions | 100% |
+| Area                   | Target               |
+| ---------------------- | -------------------- |
+| `buildSVGPath()`       | 100% branch coverage |
+| `usePenTool` hook      | 90%+                 |
+| Mouse event handlers   | 85%+                 |
+| Point type conversions | 100%                 |
 
 ---
 
@@ -738,6 +759,7 @@ Use page.mouse for all interactions."
 ```
 
 **Deliverables:**
+
 - [ ] All 7 E2E scenarios passing
 - [ ] Tests run in CI pipeline
 - [ ] Visual regression snapshots for key states
@@ -756,6 +778,7 @@ with 50+ anchor points."
 ```
 
 **Deliverables:**
+
 - [ ] Completed paths memoized (no re-render on cursor move)
 - [ ] Preview uses rAF
 - [ ] 60fps maintained with 50+ points
@@ -884,5 +907,5 @@ Goal: 60fps with [50]+ anchor points active during drawing."
 
 ---
 
-*Generated plan for integrating a Figma-style pen tool into an existing application.*
-*Adapt stack references to your actual setup. All prompts are copy-paste ready.*
+_Generated plan for integrating a Figma-style pen tool into an existing application._
+_Adapt stack references to your actual setup. All prompts are copy-paste ready._
