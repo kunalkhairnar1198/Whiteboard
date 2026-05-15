@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { EditorEngine } from '@/features/editor/engine/EditorEngine';
+
 import { store } from '@/store';
 import { attachEngineToStore } from '@/store/engineSync';
+import { EditorEngine } from '@/features/editor/engine/EditorEngine';
 
 /**
  * useEditor — constructs a single EditorEngine for the host component,

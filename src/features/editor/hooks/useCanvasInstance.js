@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { Canvas as FabricCanvas } from '@/features/editor/utils/fabricFactory';
 
 /**

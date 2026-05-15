@@ -1,9 +1,11 @@
 import React, { memo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toolActions } from '@/store/slices/toolSlice';
-import { selectToolSettings } from '@/store/selectors';
-import { useEngine } from '@/features/editor/engine/EngineContext';
+
 import { usePenTool } from '@/features/editor/tools/pen/usePenTool';
+
+import { selectToolSettings } from '@/store/selectors';
+import { toolActions } from '@/store/slices/toolSlice';
+import { useEngine } from '@/features/editor/engine/EngineContext';
 
 /**
  * ToolSettingsPanel — settings for whichever drawing tool is active.

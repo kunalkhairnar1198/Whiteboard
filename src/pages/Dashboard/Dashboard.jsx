@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  Plus,
-  FileJson,
-  Trash2,
-  Clock,
-  Layout,
   ArrowRight,
-  Layers,
-  Search,
-  MoreVertical,
+  Clock,
   ExternalLink,
+  FileJson,
+  Layers,
+  Layout,
+  Plus,
+  Search,
+  Trash2,
 } from 'lucide-react';
+
+import { deleteSavedDiagram, getSavedDiagramsList } from '@/features/editor/lib/persistence';
+
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { getSavedDiagramsList, deleteSavedDiagram } from '@/features/editor/lib/persistence';
 
 const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
   const [diagrams, setDiagrams] = useState([]);

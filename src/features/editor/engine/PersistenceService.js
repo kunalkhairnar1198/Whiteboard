@@ -1,5 +1,5 @@
+import { persistCanvasState, writeRawState } from '@/features/editor/lib/persistence';
 import PersistenceWorker from '@/features/editor/workers/persistence.worker.js?worker';
-import { writeRawState, persistCanvasState } from '@/features/editor/lib/persistence';
 
 /**
  * PersistenceService — owns the persistence Web Worker and proxies

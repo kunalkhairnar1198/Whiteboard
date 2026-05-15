@@ -1,18 +1,18 @@
 import {
   Canvas,
-  Rect,
   Circle,
-  Triangle,
-  Path,
-  Line,
-  Polygon,
-  IText,
+  fabric,
   Image as FabricImage,
   Group,
+  IText,
+  Line,
+  Path,
   Pattern,
   PatternBrush,
   Point,
-  fabric,
+  Polygon,
+  Rect,
+  Triangle,
 } from '@/features/editor/utils/fabricFactory';
 
 export const SHAPE_TOOLS = [

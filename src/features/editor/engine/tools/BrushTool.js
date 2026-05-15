@@ -1,5 +1,6 @@
-import { Tool } from './Tool';
 import { fabric } from '@/features/editor/utils/fabricFactory';
+
+import { Tool } from './Tool';
 
 /**
  * BrushTool — wraps Fabric's free drawing mode. Configures the

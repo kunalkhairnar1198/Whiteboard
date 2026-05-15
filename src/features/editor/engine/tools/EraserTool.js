@@ -1,5 +1,6 @@
-import { Tool } from './Tool';
 import { Point } from '@/features/editor/utils/fabricFactory';
+
+import { Tool } from './Tool';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 

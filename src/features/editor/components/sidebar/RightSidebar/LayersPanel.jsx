@@ -1,19 +1,21 @@
 import React, { memo, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
-  DndContext,
   closestCenter,
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  DragOverlay,
-  defaultDropAnimationSideEffects,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
-import LayerItem from '@/features/editor/components/layer-item/LayerItem';
-import { useEngineContext } from '@/features/editor/engine/EngineContext';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useSelector } from 'react-redux';
+
 import { selectLayerList, selectSelectedIds } from '@/store/selectors';
+import { useEngineContext } from '@/features/editor/engine/EngineContext';
+
+import LayerItem from '@/features/editor/components/layer-item/LayerItem';
 
 /**
  * LayersPanel — DnD list of layers. Uses engine.layers for all

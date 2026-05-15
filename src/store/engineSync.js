@@ -1,6 +1,6 @@
+import { historyActions } from './slices/historySlice';
 import { layerActions } from './slices/layerSlice';
 import { selectionActions } from './slices/selectionSlice';
-import { historyActions } from './slices/historySlice';
 
 /**
  * Wires EditorEngine bus events to the Redux store. Call once per

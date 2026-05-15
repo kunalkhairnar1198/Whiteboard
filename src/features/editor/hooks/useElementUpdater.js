@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+
 import { fabric, Gradient as FabricGradient } from '@/features/editor/utils/fabricFactory';
 
 const isTextObject = (obj) => obj?.type === 'textbox' || obj?.type === 'i-text';

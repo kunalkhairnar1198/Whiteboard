@@ -1,33 +1,36 @@
 // FabricEditor.jsx
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useQueryState, parseAsFloat, parseAsString } from 'nuqs';
-import useHistory from '@/features/editor/hooks/useHistory';
-import useElementCounter from '@/features/editor/hooks/useElementCounter';
-import useEditorUIState from '@/features/editor/hooks/useEditorUIState';
-import useCanvasSize from '@/features/editor/hooks/useCanvasSize';
-import useTemplateName from '@/features/editor/hooks/useTemplateName';
-import useCanvasInstance from '@/features/editor/hooks/useCanvasInstance';
-import useCanvasZoom from '@/features/editor/hooks/useCanvasZoom';
+import { parseAsFloat, parseAsString, useQueryState } from 'nuqs';
+
 import useCanvasBackground from '@/features/editor/hooks/useCanvasBackground';
 import useCanvasGrid from '@/features/editor/hooks/useCanvasGrid';
+import useCanvasInstance from '@/features/editor/hooks/useCanvasInstance';
 import useCanvasKeyboard from '@/features/editor/hooks/useCanvasKeyboard';
-import useEnginePanning from '@/features/editor/hooks/useEnginePanning';
-import useImageInsertion from '@/features/editor/hooks/useImageInsertion';
 import useCanvasPersistence from '@/features/editor/hooks/useCanvasPersistence';
+import useCanvasSize from '@/features/editor/hooks/useCanvasSize';
+import useCanvasZoom from '@/features/editor/hooks/useCanvasZoom';
 import useEditor from '@/features/editor/hooks/useEditor';
+import useEditorUIState from '@/features/editor/hooks/useEditorUIState';
+import useElementCounter from '@/features/editor/hooks/useElementCounter';
 import { useElementUpdater } from '@/features/editor/hooks/useElementUpdater';
+import useEnginePanning from '@/features/editor/hooks/useEnginePanning';
+import useHistory from '@/features/editor/hooks/useHistory';
+import useImageInsertion from '@/features/editor/hooks/useImageInsertion';
+import useTemplateName from '@/features/editor/hooks/useTemplateName';
+import { usePenTool } from '@/features/editor/tools/pen/usePenTool';
+
 import { EngineProvider } from '@/features/editor/engine/EngineContext';
 import { isShapeTool } from '@/features/editor/lib/canvasUtils';
 import { getSavedDiagramsList } from '@/features/editor/lib/persistence';
+import { PenToolOverlay } from '@/features/editor/tools/pen/PenToolOverlay';
+
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import CanvasArea from '@/features/editor/components/Canvas';
 import Header from '@/features/editor/components/sidebar/Header';
 import LeftSidebar from '@/features/editor/components/sidebar/LeftSidebar';
-import CanvasArea from '@/features/editor/components/Canvas';
 import RightSidebar from '@/features/editor/components/sidebar/RightSidebar';
-import { canvasPresets } from '@/features/editor/constants/canvasPresets';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { usePenTool } from '@/features/editor/tools/pen/usePenTool';
-import { PenToolOverlay } from '@/features/editor/tools/pen/PenToolOverlay';
 import EditorToolbar from '@/features/editor/components/Toolbar/EditorToolbar';
+import { canvasPresets } from '@/features/editor/constants/canvasPresets';
 
 /**
  * FabricEditor

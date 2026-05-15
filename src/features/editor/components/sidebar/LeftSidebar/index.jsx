@@ -1,19 +1,25 @@
-import React, { memo, useRef, useState, useEffect } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
-  Square,
-  Move,
-  PenTool,
-  Pencil,
-  Eraser,
-  Type,
-  Image as ImageIcon,
   ChevronLeft,
   ChevronRight,
+  Eraser,
   FileJson,
-  Trash2,
+  Image as ImageIcon,
+  Move,
+  Pencil,
+  PenTool,
   RefreshCw,
+  Square,
+  Trash2,
+  Type,
 } from 'lucide-react';
+
+import useLayers from '@/features/editor/hooks/useLayers';
+
 import { cn } from '@/lib/utils';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Sidebar,
   SidebarContent,
@@ -21,9 +27,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
 } from '@/components/ui/sidebar';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import useLayers from '@/features/editor/hooks/useLayers';
+
 // / Left sidebar component
 // Flow: Render tool buttons, shape grid, text/image upload, canvas settings.
 const LeftSidebar = ({

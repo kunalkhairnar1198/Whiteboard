@@ -1,6 +1,8 @@
 import React, { memo, useEffect, useState } from 'react';
-import { useEngineContext } from '@/features/editor/engine/EngineContext';
+
 import { useSelectedElement } from '@/features/editor/hooks/useSelectedElement';
+
+import { useEngineContext } from '@/features/editor/engine/EngineContext';
 
 const normalizeColorValue = (value, fallback = '#000000') =>
   typeof value === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value) ? value : fallback;

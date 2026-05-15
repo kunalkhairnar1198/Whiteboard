@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import { canvasPresets } from '@/features/editor/constants/canvasPresets';
 
 const computePresetSize = (presetName, zoom) => {

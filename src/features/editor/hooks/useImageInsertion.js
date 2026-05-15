@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
-import { fabric } from '@/features/editor/utils/fabricFactory';
+
 import { isImageFile, readFileAsHTMLImage } from '@/features/editor/services/imageService';
+import { fabric } from '@/features/editor/utils/fabricFactory';
 
 const MAX_INSERT_SIZE = 400;
 

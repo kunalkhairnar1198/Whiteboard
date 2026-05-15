@@ -8,5 +8,31 @@
   "arrowParens": "always",
   "jsxSingleQuote": false,
   "bracketSameLine": false,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^react$",
+    "^react-dom(/.*)?$",
+    "^react/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/hooks/(.*)$",
+    "^@/.+/hooks/(.*)$",
+    "^@/.*/use[A-Z][^/]*$",
+    "",
+    "^@/(lib|utils|store|services|config|constants|types)(/.*)?$",
+    "^@/features/.+/(lib|utils|services|engine|workers|tools)(/.*)?$",
+    "",
+    "^@/components(/.*)?$",
+    "^@/features/.+/components(/.*)?$",
+    "^@/pages(/.*)?$",
+    "^@/features/(.*)$",
+    "^@/(.*)$",
+    "",
+    "^[./]",
+    "",
+    "^.+\\.(css|scss|sass|less)$"
+  ],
+  "importOrderParserPlugins": ["jsx"],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

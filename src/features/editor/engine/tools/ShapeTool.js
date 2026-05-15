@@ -1,10 +1,11 @@
-import { Tool } from './Tool';
-import { Circle as FabricCircle } from '@/features/editor/utils/fabricFactory';
 import {
   createInteractiveShape,
-  updateInteractiveShape,
   getShapeAnchors,
+  updateInteractiveShape,
 } from '@/features/editor/lib/canvasUtils';
+import { Circle as FabricCircle } from '@/features/editor/utils/fabricFactory';
+
+import { Tool } from './Tool';
 
 const ANCHOR_PICK_RADIUS = 15;
 

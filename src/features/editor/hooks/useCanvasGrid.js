@@ -9,9 +9,32 @@ import { useEffect, useMemo, useState } from 'react';
  * accessor used by FabricEditor (e.g. when exporting an image without
  * the grid).
  */
+const GRID_SHOW_KEY = 'editor:showGrid';
+const GRID_SIZE_KEY = 'editor:gridSize';
+
 export const useCanvasGrid = (canvas, { canvasSize, engine }) => {
-  const [showGrid, setShowGrid] = useState(false);
-  const [gridSize, setGridSize] = useState(20);
+  const [showGrid, setShowGrid] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(GRID_SHOW_KEY)) ?? false;
+    } catch {
+      return false;
+    }
+  });
+  const [gridSize, setGridSize] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(GRID_SIZE_KEY)) ?? 20;
+    } catch {
+      return 20;
+    }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem(GRID_SHOW_KEY, JSON.stringify(showGrid)); } catch { /* ignore */ }
+  }, [showGrid]);
+
+  useEffect(() => {
+    try { localStorage.setItem(GRID_SIZE_KEY, JSON.stringify(gridSize)); } catch { /* ignore */ }
+  }, [gridSize]);
 
   useEffect(() => {
     const cm = engine?.canvas;

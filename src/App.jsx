@@ -1,10 +1,11 @@
-import React from 'react';
-import { Routes, Route, useNavigate, useParams } from 'react-router-dom';
-import FabricEditor from '@/pages/Editor/Editor';
-import Dashboard from '@/pages/Dashboard/Dashboard';
-import { getSavedDiagramsList } from '@/features/editor/lib/persistence';
-import { Button } from '@/components/ui/button';
 import { FileQuestion, Home } from 'lucide-react';
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
+
+import { getSavedDiagramsList } from '@/features/editor/lib/persistence';
+
+import { Button } from '@/components/ui/button';
+import Dashboard from '@/pages/Dashboard/Dashboard';
+import FabricEditor from '@/pages/Editor/Editor';
 
 const NotFound = () => {
   const navigate = useNavigate();

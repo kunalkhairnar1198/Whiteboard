@@ -1,5 +1,6 @@
-import { Tool } from './Tool';
 import { createInteractiveShape } from '@/features/editor/lib/canvasUtils';
+
+import { Tool } from './Tool';
 
 /**
  * TextTool — click on empty canvas to create an editable IText; click

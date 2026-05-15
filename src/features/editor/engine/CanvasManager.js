@@ -1,7 +1,7 @@
 import {
+  drawGrid,
   setCanvasBackgroundColor,
   setCanvasBackgroundImage,
-  drawGrid,
 } from '@/features/editor/lib/canvasUtils';
 
 /**

@@ -3,7 +3,7 @@
  * Integrates pen tool state with undo/redo system
  */
 
-import { useRef, useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 /**
  * Custom hook for undo/redo with whiteboard state

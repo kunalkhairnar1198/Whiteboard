@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCanUndo, selectCanRedo } from '@/store/selectors';
+
+import { selectCanRedo, selectCanUndo } from '@/store/selectors';
 
 /**
  * useHistory — thin wrapper around engine.history. The buffer lives

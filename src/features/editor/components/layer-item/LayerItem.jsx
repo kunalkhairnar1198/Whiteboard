@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, memo, useCallback } from 'react';
-import { Eye, EyeOff, Lock, Unlock, ArrowUp, ArrowDown, Trash2 } from 'lucide-react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { ArrowDown, ArrowUp, Eye, EyeOff, Lock, Trash2, Unlock } from 'lucide-react';
 
 /**
  * LayerItem — single row in the layer panel.

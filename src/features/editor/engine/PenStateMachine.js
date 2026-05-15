@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import { fabric } from '@/features/editor/utils/fabricFactory';
-import { INITIAL_STATE, EMPTY_PATH } from '@/features/editor/tools/pen/types';
+
 import { buildSVGPath } from '@/features/editor/tools/pen/usePathRenderer';
+
+import { EMPTY_PATH, INITIAL_STATE } from '@/features/editor/tools/pen/types';
+import { fabric } from '@/features/editor/utils/fabricFactory';
 
 const SNAP_GRID_SIZE = 20;
 const POINT_HIT = 10;

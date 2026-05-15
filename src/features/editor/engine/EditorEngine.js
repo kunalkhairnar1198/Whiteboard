@@ -1,20 +1,20 @@
-import { EventBus } from './EventBus';
-import { RenderManager } from './RenderManager';
 import { CanvasManager } from './CanvasManager';
+import { EventBus } from './EventBus';
+import { HistoryManager } from './HistoryManager';
 import { LayerManager } from './LayerManager';
+import { PenRenderer } from './PenRenderer';
+import { PenStateMachine } from './PenStateMachine';
+import { PersistenceService } from './PersistenceService';
+import { RenderManager } from './RenderManager';
 import { SelectionManager } from './SelectionManager';
 import { ToolManager } from './ToolManager';
-import { HistoryManager } from './HistoryManager';
-import { PersistenceService } from './PersistenceService';
-import { PenStateMachine } from './PenStateMachine';
-import { PenRenderer } from './PenRenderer';
-import { SelectTool } from './tools/SelectTool';
-import { PanTool } from './tools/PanTool';
-import { ShapeTool } from './tools/ShapeTool';
-import { TextTool } from './tools/TextTool';
 import { BrushTool } from './tools/BrushTool';
 import { EraserTool } from './tools/EraserTool';
+import { PanTool } from './tools/PanTool';
 import { PenTool } from './tools/PenTool';
+import { SelectTool } from './tools/SelectTool';
+import { ShapeTool } from './tools/ShapeTool';
+import { TextTool } from './tools/TextTool';
 
 const SHAPE_TYPES = [
   'rectangle',

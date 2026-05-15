@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import { loadCanvasState } from '@/features/editor/lib/persistence';
+
 import { getNextElementCounterFromState } from '@/features/editor/lib/editorState';
+import { loadCanvasState } from '@/features/editor/lib/persistence';
 
 /**
  * useCanvasPersistence — restore + load + workspace orchestration.

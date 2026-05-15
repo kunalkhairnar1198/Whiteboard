@@ -4,14 +4,14 @@
  */
 
 import React, {
-  useRef,
-  useState,
+  forwardRef,
   useCallback,
   useEffect,
-  forwardRef,
   useImperativeHandle,
+  useRef,
+  useState,
 } from 'react';
-import { Stage, Layer } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 
 /**
  * Whiteboard Component

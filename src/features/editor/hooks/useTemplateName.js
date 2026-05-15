@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+
 import { exportToJson, persistCanvasState } from '@/features/editor/lib/persistence';
 
 export const useTemplateName = (initialDiagramName, { canvas } = {}) => {

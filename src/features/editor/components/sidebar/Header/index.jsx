@@ -1,25 +1,27 @@
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import {
+  ChevronLeft,
   Download,
+  Layout,
   PanelLeftOpen,
   PanelRightOpen,
   RotateCcw,
   RotateCw,
+  Save,
+  Trash2,
+  Upload,
   ZoomIn,
   ZoomOut,
-  Layout,
-  Save,
-  Upload,
-  ChevronLeft,
-  Trash2,
 } from 'lucide-react';
-import { useRef } from 'react';
+
+import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Card } from '@/components/ui/card';
+
 import ShortcutHelpDialog from './ShortcutHelpDialog';
-import { cn } from '@/lib/utils';
 
 // Header component
 // Flow: Render input for name, zoom controls, undo/redo, export button.

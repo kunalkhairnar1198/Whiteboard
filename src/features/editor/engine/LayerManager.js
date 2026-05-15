@@ -1,5 +1,5 @@
-import { moveLayerInOrder, reorderLayersByIds } from '@/features/editor/lib/layerOrder';
 import { updateConnections } from '@/features/editor/lib/canvasUtils';
+import { moveLayerInOrder, reorderLayersByIds } from '@/features/editor/lib/layerOrder';
 
 /**
  * LayerManager — single source of truth for layer projection.

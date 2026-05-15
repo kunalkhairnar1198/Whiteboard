@@ -1,16 +1,20 @@
 import React, { memo } from 'react';
+import { ChevronRight, Filter } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { Filter, ChevronRight } from 'lucide-react';
-import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useEngine } from '@/features/editor/engine/EngineContext';
+
 import { useSelectedElement } from '@/features/editor/hooks/useSelectedElement';
+
+import { cn } from '@/lib/utils';
 import { selectSelectedIds } from '@/store/selectors';
+import { useEngine } from '@/features/editor/engine/EngineContext';
+
+import { Button } from '@/components/ui/button';
+import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar';
+
+import FiltersPanel from './FiltersPanel';
 import LayersPanel from './LayersPanel';
 import PropertiesPanel from './PropertiesPanel';
 import ToolSettingsPanel from './ToolSettingsPanel';
-import FiltersPanel from './FiltersPanel';
 
 /**
  * RightSidebar — orchestrator only. Tabs + which panel to show. All

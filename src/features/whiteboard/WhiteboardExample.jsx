@@ -3,7 +3,8 @@
  * Demonstrates integration of the Figma-like Pen Tool
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
+
 import Whiteboard from '@/features/whiteboard/Whiteboard';
 
 export default function WhiteboardExample() {

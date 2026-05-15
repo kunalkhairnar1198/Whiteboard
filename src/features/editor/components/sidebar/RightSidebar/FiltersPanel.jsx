@@ -1,6 +1,8 @@
 import React, { lazy, memo, Suspense, useCallback } from 'react';
-import { useEngineContext } from '@/features/editor/engine/EngineContext';
+
 import { useSelectedElement } from '@/features/editor/hooks/useSelectedElement';
+
+import { useEngineContext } from '@/features/editor/engine/EngineContext';
 
 // Code-split: ImageFilterPanel pulls in Fabric's filter classes; load
 // only when the user actually opens the Filters tab.

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { Square, Move, Eraser, Type, Image as ImageIcon } from 'lucide-react';
+import { Eraser, Image as ImageIcon, Move, Square, Type } from 'lucide-react';
+
 import { addShape } from '@/features/editor/lib/canvasUtils';
 
 const DrawingToolsPanel = ({
