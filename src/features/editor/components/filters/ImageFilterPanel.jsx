@@ -343,17 +343,17 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
 
   if (!selectedElement || selectedElement.type !== 'image') {
     return (
-      <div className="text-sm text-gray-500 text-center py-8">Select an image to apply filters</div>
+      <div className="text-sm text-muted-foreground text-center py-8">Select an image to apply filters</div>
     );
   }
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h4 className="text-sm font-semibold text-gray-700">Image Filters</h4>
+        <h4 className="text-sm font-semibold text-foreground">Image Filters</h4>
         <button
           onClick={clearFilters}
-          className="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          className="text-xs bg-destructive text-destructive-foreground px-3 py-1 rounded hover:bg-destructive/90"
         >
           Clear All
         </button>
@@ -362,7 +362,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
       <div className="space-y-3 text-sm max-h-[60vh] overflow-y-auto pr-2">
         {/* Basic Filters */}
         <div className="space-y-2">
-          <h5 className="text-xs font-semibold text-gray-600 uppercase">Basic</h5>
+          <h5 className="text-xs font-semibold text-muted-foreground uppercase">Basic</h5>
 
           <div className="flex items-center justify-between">
             <span>Grayscale</span>
@@ -435,7 +435,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
 
         {/* Adjustments */}
         <div className="space-y-2 pt-2 border-t">
-          <h5 className="text-xs font-semibold text-gray-600 uppercase">Adjustments</h5>
+          <h5 className="text-xs font-semibold text-muted-foreground uppercase">Adjustments</h5>
 
           <div>
             <div className="flex items-center justify-between mb-1">
@@ -458,7 +458,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setBrightness(parseFloat(e.target.value))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-muted-foreground text-right">
                   {Math.round(brightness * 100)}%
                 </div>
               </>
@@ -486,7 +486,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setContrast(parseFloat(e.target.value))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-muted-foreground text-right">
                   {Math.round(contrast * 100)}%
                 </div>
               </>
@@ -514,7 +514,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setSaturation(parseFloat(e.target.value))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-muted-foreground text-right">
                   {Math.round(saturation * 100)}%
                 </div>
               </>
@@ -542,7 +542,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setHueValue(parseFloat(e.target.value))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">
+                <div className="text-xs text-muted-foreground text-right">
                   {Math.round(hueValue * 180)}°
                 </div>
               </>
@@ -552,7 +552,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
 
         {/* Effects */}
         <div className="space-y-2 pt-2 border-t">
-          <h5 className="text-xs font-semibold text-gray-600 uppercase">Effects</h5>
+          <h5 className="text-xs font-semibold text-muted-foreground uppercase">Effects</h5>
 
           <div>
             <div className="flex items-center justify-between mb-1">
@@ -575,7 +575,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setNoise(parseInt(e.target.value, 10))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">{noise}</div>
+                <div className="text-xs text-muted-foreground text-right">{noise}</div>
               </>
             )}
           </div>
@@ -601,7 +601,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setPixelSize(parseInt(e.target.value, 10))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">{pixelSize}px</div>
+                <div className="text-xs text-muted-foreground text-right">{pixelSize}px</div>
               </>
             )}
           </div>
@@ -627,7 +627,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
                   onChange={(e) => setBlur(parseFloat(e.target.value))}
                   className="w-full"
                 />
-                <div className="text-xs text-gray-500 text-right">{Math.round(blur * 100)}%</div>
+                <div className="text-xs text-muted-foreground text-right">{Math.round(blur * 100)}%</div>
               </>
             )}
           </div>
@@ -645,7 +645,7 @@ const ImageFilterPanel = ({ canvas, selectedElement, onFilterChange }) => {
 
         {/* Vintage Effects */}
         <div className="space-y-2 pt-2 border-t">
-          <h5 className="text-xs font-semibold text-gray-600 uppercase">Vintage</h5>
+          <h5 className="text-xs font-semibold text-muted-foreground uppercase">Vintage</h5>
 
           <div className="flex items-center justify-between">
             <span>Technicolor</span>

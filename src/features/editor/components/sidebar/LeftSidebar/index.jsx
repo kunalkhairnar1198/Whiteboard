@@ -99,8 +99,8 @@ const LeftSidebar = ({
   const [radius, setRadius] = useState(0);
   const [gradientEnabled, setGradientEnabled] = useState(false);
   const [gradientType, setGradientType] = useState('linear');
-  const [gradientFrom, setGradientFrom] = useState('#3b82f6');
-  const [gradientTo, setGradientTo] = useState('#8b5cf6');
+  const [gradientFrom, setGradientFrom] = useState('#FF6B00');
+  const [gradientTo, setGradientTo] = useState('#FF8C38');
 
   return (
     <Sidebar side="left" mobileOpen={showLeftSidebar}>
@@ -113,7 +113,7 @@ const LeftSidebar = ({
           variant="ghost"
           size="icon"
           onClick={() => setShowLeftSidebar(!showLeftSidebar)}
-          className="absolute right-0 translate-x-full top-0  h-8 w-8 rounded-r-xl rounded-l-none border-l-0 shadow-lg z-[110] bg-white hover:bg-slate-50"
+          className="absolute right-0 translate-x-full top-0  h-8 w-8 rounded-r-xl rounded-l-none border-l-0 shadow-lg z-[110] bg-background hover:bg-secondary"
           title={showLeftSidebar ? 'Collapse Sidebar' : 'Open Settings'}
         >
           <ChevronLeft
@@ -141,7 +141,7 @@ const LeftSidebar = ({
               <select
                 value={selectedPreset}
                 onChange={(e) => handlePresetChange(e.target.value)}
-                className="w-full px-2 py-1 border border-gray-300 rounded"
+                className="w-full px-2 py-1 border border-border rounded bg-background text-foreground"
               >
                 {Object.keys(canvasPresets).map((preset) => (
                   <option key={preset} value={preset}>
@@ -157,33 +157,33 @@ const LeftSidebar = ({
                 </h4>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs text-gray-500 block mb-1">Width (px):</label>
+                    <label className="text-xs text-muted-foreground block mb-1">Width (px):</label>
                     <input
                       type="number"
                       value={customWidth}
                       onChange={(e) => setCustomWidth(parseInt(e.target.value) || '')}
                       min="100"
                       max="4000"
-                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground"
                       placeholder="Width"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-gray-500 block mb-1">Height (px):</label>
+                    <label className="text-xs text-muted-foreground block mb-1">Height (px):</label>
                     <input
                       type="number"
                       value={customHeight}
                       onChange={(e) => setCustomHeight(parseInt(e.target.value) || '')}
                       min="100"
                       max="4000"
-                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground"
                       placeholder="Height"
                     />
                   </div>
                 </div>
                 <button
                   onClick={handleCustomSizeSubmit}
-                  className="mt-2 w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="mt-2 w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/80 transition-colors"
                 >
                   Apply Custom Size
                 </button>
@@ -195,12 +195,12 @@ const LeftSidebar = ({
                 type="color"
                 value={background.type === 'color' ? background.value : '#ffffff'}
                 onChange={(e) => setBackground({ type: 'color', value: e.target.value })}
-                className="w-full h-10 border border-gray-300 rounded-lg cursor-pointer"
+                className="w-full h-10 border border-border rounded-lg cursor-pointer"
               />
             </div>
             <div>
-              <label className="block p-4 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all">
-                <ImageIcon className="w-6 h-6 mx-auto text-gray-400 mb-1" />
+              <label className="block p-4 border-2 border-dashed border-border rounded-lg text-center cursor-pointer hover:border-primary/50 hover:bg-secondary transition-all">
+                <ImageIcon className="w-6 h-6 mx-auto text-muted-foreground mb-1" />
                 <p className="text-xs text-muted-foreground">Upload Background Image</p>
                 <input
                   ref={bgFileInputRef}
@@ -225,9 +225,9 @@ const LeftSidebar = ({
                 type="checkbox"
                 checked={showGrid}
                 onChange={(e) => setShowGrid(e.target.checked)}
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                className="w-4 h-4 accent-primary rounded focus:ring-2 focus:ring-ring"
               />
-              <span className="text-sm text-gray-700">Show Grid</span>
+              <span className="text-sm text-foreground">Show Grid</span>
             </label>
             {showGrid && (
               <div>
@@ -268,7 +268,7 @@ const LeftSidebar = ({
                     className="flex-1 justify-start gap-2 h-8 text-xs overflow-hidden text-ellipsis whitespace-nowrap"
                     onClick={() => loadSavedDiagram(name)}
                   >
-                    <FileJson className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                    <FileJson className="h-3.5 w-3.5 text-primary flex-shrink-0" />
                     <span className="truncate">{name}</span>
                   </Button>
                 </div>

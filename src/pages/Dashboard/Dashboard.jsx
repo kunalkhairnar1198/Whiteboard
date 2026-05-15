@@ -16,6 +16,7 @@ import { deleteSavedDiagram, getSavedDiagramsList } from '@/features/editor/lib/
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 
 const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
   const [diagrams, setDiagrams] = useState([]);
@@ -43,21 +44,24 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-accent-foreground bg-clip-text text-transparent tracking-tight">
               Whiteboard Studio
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl font-light">
               Design, collaborate, and bring your ideas to life.
             </p>
           </div>
-          <Button
-            onClick={onCreateNew}
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded-full px-8 py-6 text-lg font-semibold shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all hover:scale-105 active:scale-95 flex gap-3"
-          >
-            <Plus className="w-6 h-6" />
-            Create New Workspace
-          </Button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle className="px-8 py-6 bg-primary/90 hover:bg-primary text-lg font-semibold shadow-[0_0_20px_color-mix(in_oklch,var(--primary)_40%,transparent)]  flex gap-3" />
+            <Button
+              onClick={onCreateNew}
+              size="lg"
+              className=" px-8 py-6 bg-primary/90 hover:bg-primary text-lg font-semibold shadow-[0_0_20px_color-mix(in_oklch,var(--primary)_40%,transparent)] flex gap-3"
+            >
+              <Plus className="w-6 h-6" />
+              Create New Workspace
+            </Button>
+          </div>
         </div>
 
         {/* Search & Filters */}
@@ -79,13 +83,13 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
           </div>
 
           {filteredDiagrams.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 bg-slate-800/20 rounded-3xl border-2 border-dashed border-slate-800">
-              <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-6">
-                <FileJson className="w-10 h-10 text-slate-600" />
+            <div className="flex flex-col items-center justify-center py-20 bg-primary/10 rounded-3xl border-2 border-dashed border-border">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mb-6">
+                <FileJson className="w-10 h-10 text-muted-foreground" />
               </div>
-              <h3 className="text-xl font-medium text-slate-300">No workspaces found</h3>
-              <p className="text-slate-500 mt-2">Start by creating a new design project</p>
-              <Button variant="link" className="text-blue-400 mt-4" onClick={onCreateNew}>
+              <h3 className="text-xl font-medium text-foreground/70">No workspaces found</h3>
+              <p className="text-muted-foreground mt-2">Start by creating a new design project</p>
+              <Button variant="link" className="text-primary mt-4" onClick={onCreateNew}>
                 Create your first workspace <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
@@ -115,20 +119,20 @@ const Dashboard = ({ onSelectWorkspace, onCreateNew }) => {
                     <CardTitle className="group-hover:text-primary transition-colors">
                       {name}
                     </CardTitle>
-                    <CardDescription className="text-slate-500 line-clamp-1">
+                    <CardDescription className="text-muted-foreground line-clamp-1">
                       Local Workspace • Last edited recently
                     </CardDescription>
                   </CardHeader>
                   <div className="p-6 pt-0 relative z-10 flex items-center justify-between">
                     <div className="flex -space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold">
+                      <div className="w-8 h-8 rounded-full bg-border border-2 border-primary/20 flex items-center justify-center text-[10px] font-bold">
                         JD
                       </div>
-                      <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold">
+                      <div className="w-8 h-8 rounded-full bg-primary border-2 border-background flex items-center justify-center text-[10px] font-bold text-primary-foreground">
                         ME
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs font-medium text-blue-400 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
+                    <div className="flex items-center gap-2 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
                       Open Design <ExternalLink className="w-3 h-3" />
                     </div>
                   </div>

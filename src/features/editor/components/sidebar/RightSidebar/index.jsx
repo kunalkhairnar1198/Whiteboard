@@ -66,7 +66,7 @@ const RightSidebar = ({
           variant="secondary"
           size="icon"
           onClick={() => setShowRightSidebar(!showRightSidebar)}
-          className="absolute left-0 -translate-x-full top-0 h-10 w-10 rounded-l-xl rounded-r-none border-r-0 shadow-lg z-[110] bg-white hover:bg-slate-50"
+          className="absolute left-0 -translate-x-full top-0 h-10 w-10 rounded-l-xl rounded-r-none border-r-0 shadow-lg z-[110] bg-background hover:bg-secondary"
           title={showRightSidebar ? 'Collapse Inspector' : 'Open Inspector'}
         >
           <ChevronRight

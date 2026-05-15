@@ -10,20 +10,20 @@ import FabricEditor from '@/pages/Editor/Editor';
 const NotFound = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-950 text-white p-6">
-      <div className="bg-slate-900 p-12 rounded-3xl border border-slate-800 text-center space-y-6 shadow-2xl">
-        <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto">
-          <FileQuestion className="w-12 h-12 text-red-500" />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-secondary text-foreground p-6">
+      <div className="bg-card p-12 rounded-3xl border border-border text-center space-y-6 shadow-2xl">
+        <div className="w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center mx-auto">
+          <FileQuestion className="w-12 h-12 text-destructive" />
         </div>
         <div className="space-y-2">
           <h1 className="text-4xl font-bold">Workspace Not Found</h1>
-          <p className="text-slate-400">
+          <p className="text-muted-foreground">
             The diagram you are looking for does not exist or has been deleted.
           </p>
         </div>
         <Button
           onClick={() => navigate('/')}
-          className="bg-blue-600 hover:bg-blue-500 rounded-full px-8 flex gap-2"
+          className="rounded-full px-8 flex gap-2"
         >
           <Home className="w-4 h-4" />
           Back to Dashboard

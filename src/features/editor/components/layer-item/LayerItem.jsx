@@ -95,10 +95,10 @@ const LayerItem = ({
       {...listeners}
       className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all cursor-pointer ${
         isOverlay
-          ? 'border-blue-600 bg-white shadow-xl scale-105'
+          ? 'border-primary bg-background shadow-xl scale-105'
           : isSelected
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-200 hover:border-gray-300 bg-white'
+            ? 'border-primary bg-secondary'
+            : 'border-border hover:border-primary/50 bg-background'
       }`}
       onClick={isOverlay ? undefined : handleSelect}
     >
@@ -121,11 +121,11 @@ const LayerItem = ({
                           ? '✏'
                           : '◆'}
           </span>
-          <span className="text-sm font-medium text-gray-700 truncate">
+          <span className="text-sm font-medium text-foreground truncate">
             {isEditing ? (
               <input
                 ref={inputRef}
-                className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                className="w-full px-2 py-1 text-sm border border-border rounded bg-background text-foreground"
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
                 onBlur={commitRename}
@@ -157,43 +157,43 @@ const LayerItem = ({
       <div className="flex items-center gap-1">
         <button
           onClick={handleToggleVisibility}
-          className="p-1 hover:bg-gray-200 rounded transition-colors"
+          className="p-1 hover:bg-muted rounded transition-colors"
           title={element.visible ? 'Hide' : 'Show'}
         >
           {element.visible ? (
             <Eye className="w-4 h-4" />
           ) : (
-            <EyeOff className="w-4 h-4 text-gray-400" />
+            <EyeOff className="w-4 h-4 text-muted-foreground" />
           )}
         </button>
         <button
           onClick={handleToggleLock}
-          className="p-1 hover:bg-gray-200 rounded transition-colors"
+          className="p-1 hover:bg-muted rounded transition-colors"
           title={element.locked ? 'Unlock' : 'Lock'}
         >
           {element.locked ? (
-            <Lock className="w-4 h-4 text-red-500" />
+            <Lock className="w-4 h-4 text-destructive" />
           ) : (
             <Unlock className="w-4 h-4" />
           )}
         </button>
         <button
           onClick={handleMoveUp}
-          className="p-1 hover:bg-gray-200 rounded transition-colors"
+          className="p-1 hover:bg-muted rounded transition-colors"
           title="Move Up"
         >
           <ArrowUp className="w-4 h-4" />
         </button>
         <button
           onClick={handleMoveDown}
-          className="p-1 hover:bg-gray-200 rounded transition-colors"
+          className="p-1 hover:bg-muted rounded transition-colors"
           title="Move Down"
         >
           <ArrowDown className="w-4 h-4" />
         </button>
         <button
           onClick={handleDelete}
-          className="p-1 hover:bg-red-100 text-red-600 rounded transition-colors"
+          className="p-1 hover:bg-destructive/10 text-destructive rounded transition-colors"
           title="Delete"
         >
           <Trash2 className="w-4 h-4" />

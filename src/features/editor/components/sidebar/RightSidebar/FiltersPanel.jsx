@@ -12,7 +12,7 @@ const ImageFilterPanel = lazy(
 
 const FilterFallback = () => (
   <div className="py-12 text-center">
-    <p className="text-gray-500 text-sm">Loading filters…</p>
+    <p className="text-muted-foreground text-sm">Loading filters…</p>
   </div>
 );
 
@@ -31,7 +31,7 @@ const FiltersPanel = () => {
   if (!selectedElement || selectedElement.type !== 'image') {
     return (
       <div className="py-12 text-center">
-        <p className="text-gray-500 text-sm">Select an image to apply filters</p>
+        <p className="text-muted-foreground text-sm">Select an image to apply filters</p>
       </div>
     );
   }

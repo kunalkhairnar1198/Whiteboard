@@ -4,6 +4,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { store } from '@/store';
+import { ThemeProvider } from '@/components/theme/ThemeProvider';
 
 import './index.css';
 
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')).render(
   <ReduxProvider store={store}>
     <BrowserRouter>
       <NuqsAdapter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </NuqsAdapter>
     </BrowserRouter>
   </ReduxProvider>,

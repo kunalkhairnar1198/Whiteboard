@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 
 import ShortcutHelpDialog from './ShortcutHelpDialog';
 
@@ -117,7 +118,7 @@ const Header = ({
               onClick={saveWorkspace}
               title="Save Workspace (JSON)"
             >
-              <Save className="w-5 h-5 text-blue-600" />
+              <Save className="w-5 h-5 text-primary" />
             </Button>
             <Button
               variant="outline"
@@ -147,6 +148,7 @@ const Header = ({
               className={`w-5 h-5 transition-transform duration-300 ${toolbarOrientation === 'horizontal' ? 'rotate-90' : ''}`}
             />
           </Button>
+          <ThemeToggle compact />
           <ShortcutHelpDialog />
           <Button onClick={() => exportCanvas('png')} className="gap-2">
             <Download className="w-4 h-4" />

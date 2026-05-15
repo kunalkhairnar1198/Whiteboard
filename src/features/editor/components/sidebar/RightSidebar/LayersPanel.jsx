@@ -129,7 +129,7 @@ const LayersPanel = () => {
       <SortableContext items={sortedIds} strategy={verticalListSortingStrategy}>
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold text-gray-700 text-sm">Layers ({elements.length})</h3>
+            <h3 className="font-semibold text-foreground text-sm">Layers ({elements.length})</h3>
           </div>
           <div className="space-y-2">
             {elements
@@ -149,7 +149,7 @@ const LayersPanel = () => {
                 />
               ))}
             {elements.length === 0 && (
-              <div className="py-8 text-gray-500 text-center">
+              <div className="py-8 text-muted-foreground text-center">
                 <p className="text-sm">No layers yet</p>
                 <p className="text-xs">Add shapes, text, or images to get started</p>
               </div>

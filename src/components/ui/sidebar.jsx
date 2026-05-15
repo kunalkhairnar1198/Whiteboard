@@ -39,7 +39,7 @@ const Sidebar = React.forwardRef(
           size="icon"
           onClick={onToggle}
           className={cn(
-            'absolute top-4 h-10 w-8 z-[100] transition-all duration-300 bg-white hover:bg-slate-50 flex items-center justify-center border border-slate-200 shadow-xl',
+            'absolute top-4 h-10 w-8 z-[100] transition-all duration-300 bg-background hover:bg-secondary flex items-center justify-center border border-border shadow-xl',
             side === 'left'
               ? 'left-full rounded-r-xl -ml-[1px]'
               : 'right-full rounded-l-xl -mr-[1px]',
@@ -74,7 +74,7 @@ const SidebarHeader = React.forwardRef(({ className, ...props }, ref) => (
 SidebarHeader.displayName = 'SidebarHeader';
 
 const SidebarContent = React.forwardRef(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('flex-1 overflow-y-auto px-4 py-4', className)} {...props} />
+  <div ref={ref} className={cn('flex-1 overflow-y-auto no-scrollbar px-4 py-4', className)} {...props} />
 ));
 SidebarContent.displayName = 'SidebarContent';
 

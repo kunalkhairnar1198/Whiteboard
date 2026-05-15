@@ -23,7 +23,7 @@ const ToolSettingsPanel = ({ currentTool }) => {
     default:
       return (
         <div className="py-12 text-center">
-          <p className="text-gray-500 text-sm">Select an element to edit properties</p>
+          <p className="text-muted-foreground text-sm">Select an element to edit properties</p>
         </div>
       );
   }
@@ -41,11 +41,11 @@ const BrushSettings = memo(() => {
     <div className="space-y-4">
       <h4 className="font-semibold text-muted-foreground text-xs">Brush</h4>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Brush Type</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Brush Type</label>
         <select
           value={settings.penBrushType}
           onChange={(e) => update({ penBrushType: e.target.value })}
-          className="px-3 py-2 border border-gray-300 rounded-lg w-full text-sm"
+          className="px-3 py-2 border border-border rounded-lg w-full text-sm bg-background text-foreground"
         >
           <option value="Pencil">Pencil</option>
           <option value="Circle">Circle</option>
@@ -54,16 +54,16 @@ const BrushSettings = memo(() => {
         </select>
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Line Color</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Line Color</label>
         <input
           type="color"
           value={settings.penColor}
           onChange={(e) => update({ penColor: e.target.value })}
-          className="border border-gray-300 rounded-lg w-full h-10 cursor-pointer"
+          className="border border-border rounded-lg w-full h-10 cursor-pointer"
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Width: {settings.penWidth}px</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Width: {settings.penWidth}px</label>
         <input
           type="range"
           min="1"
@@ -74,7 +74,7 @@ const BrushSettings = memo(() => {
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">
+        <label className="block mb-1 text-muted-foreground text-xs">
           Opacity: {Math.round(settings.penOpacity * 100)}%
         </label>
         <input
@@ -90,16 +90,16 @@ const BrushSettings = memo(() => {
       <div className="space-y-2">
         <h5 className="font-semibold text-muted-foreground text-xs">Shadow</h5>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">Shadow Color</label>
+          <label className="block mb-1 text-muted-foreground text-xs">Shadow Color</label>
           <input
             type="color"
             value={settings.penShadowColor}
             onChange={(e) => update({ penShadowColor: e.target.value })}
-            className="border border-gray-300 rounded-lg w-full h-10 cursor-pointer"
+            className="border border-border rounded-lg w-full h-10 cursor-pointer"
           />
         </div>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">Blur: {settings.penShadowBlur}</label>
+          <label className="block mb-1 text-muted-foreground text-xs">Blur: {settings.penShadowBlur}</label>
           <input
             type="range"
             min="0"
@@ -110,7 +110,7 @@ const BrushSettings = memo(() => {
           />
         </div>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">
+          <label className="block mb-1 text-muted-foreground text-xs">
             Offset: {settings.penShadowOffset}px
           </label>
           <input
@@ -123,7 +123,7 @@ const BrushSettings = memo(() => {
           />
         </div>
       </div>
-      <p className="text-gray-500 text-xs pt-2">
+      <p className="text-muted-foreground text-xs pt-2">
         Tip: changes apply immediately while in drawing mode.
       </p>
     </div>
@@ -139,12 +139,12 @@ const EraserSettings = memo(() => {
     <div className="space-y-4">
       <h4 className="font-semibold text-muted-foreground text-xs">Eraser</h4>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Size: {size}px</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Size: {size}px</label>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => update({ eraserSize: Math.max(1, size - 1) })}
-            className="bg-gray-100 px-2 py-1 border rounded"
+            className="bg-secondary text-secondary-foreground px-2 py-1 border border-border rounded"
           >
             -
           </button>
@@ -159,12 +159,12 @@ const EraserSettings = memo(() => {
           <button
             type="button"
             onClick={() => update({ eraserSize: Math.min(200, size + 1) })}
-            className="bg-gray-100 px-2 py-1 border rounded"
+            className="bg-secondary text-secondary-foreground px-2 py-1 border border-border rounded"
           >
             +
           </button>
         </div>
-        <p className="pt-1 text-gray-500 text-xs">
+        <p className="pt-1 text-muted-foreground text-xs">
           Use the buttons or slider to change eraser size.
         </p>
       </div>
@@ -182,16 +182,16 @@ const PenSettings = memo(() => {
     <div className="space-y-4">
       <h4 className="font-semibold text-muted-foreground text-xs">Pen Tool</h4>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Stroke Color</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Stroke Color</label>
         <input
           type="color"
           value={settings.penColor}
           onChange={(e) => update({ penColor: e.target.value })}
-          className="border border-gray-300 rounded-lg w-full h-10 cursor-pointer"
+          className="border border-border rounded-lg w-full h-10 cursor-pointer"
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Width: {settings.penWidth}px</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Width: {settings.penWidth}px</label>
         <input
           type="range"
           min="1"
@@ -211,7 +211,7 @@ const PenSettings = memo(() => {
           />
           <span className="text-muted-foreground text-xs">Snap to Grid</span>
         </label>
-        <p className="text-gray-500 text-xs">Double-click any path to enter node edit mode.</p>
+        <p className="text-muted-foreground text-xs">Double-click any path to enter node edit mode.</p>
       </div>
     </div>
   );

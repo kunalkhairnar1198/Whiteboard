@@ -26,7 +26,7 @@ const PropertiesPanel = () => {
   if (!selectedElement) {
     return (
       <div className="py-12 text-center">
-        <p className="text-gray-500 text-sm">Select an element to edit properties</p>
+        <p className="text-muted-foreground text-sm">Select an element to edit properties</p>
       </div>
     );
   }
@@ -36,48 +36,48 @@ const PropertiesPanel = () => {
 
   return (
     <div className="space-y-4">
-      <h3 className="mb-4 font-semibold text-gray-700 text-sm">Properties</h3>
+      <h3 className="mb-4 font-semibold text-foreground text-sm">Properties</h3>
 
       {/* Position & Size */}
       <div>
         <h4 className="mb-2 font-semibold text-muted-foreground text-xs">Position & Size</h4>
         <div className="gap-2 grid grid-cols-2">
           <div>
-            <label className="block mb-1 text-gray-500 text-xs">X:</label>
+            <label className="block mb-1 text-muted-foreground text-xs">X:</label>
             <input
               type="number"
               value={Math.round(selectedElement.left)}
               onChange={(e) => handleElementChange(id, { left: +e.target.value })}
-              className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+              className="px-2 py-1 border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
             />
           </div>
           <div>
-            <label className="block mb-1 text-gray-500 text-xs">Y:</label>
+            <label className="block mb-1 text-muted-foreground text-xs">Y:</label>
             <input
               type="number"
               value={Math.round(selectedElement.top)}
               onChange={(e) => handleElementChange(id, { top: +e.target.value })}
-              className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+              className="px-2 py-1 border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
             />
           </div>
           {!isTextElement && (
             <>
               <div>
-                <label className="block mb-1 text-gray-500 text-xs">Width:</label>
+                <label className="block mb-1 text-muted-foreground text-xs">Width:</label>
                 <input
                   type="number"
                   value={Math.round(selectedElement.width * (selectedElement.scaleX || 1))}
                   onChange={(e) => handleElementChange(id, { width: +e.target.value })}
-                  className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+                  className="px-2 py-1 border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
                 />
               </div>
               <div>
-                <label className="block mb-1 text-gray-500 text-xs">Height:</label>
+                <label className="block mb-1 text-muted-foreground text-xs">Height:</label>
                 <input
                   type="number"
                   value={Math.round(selectedElement.height * (selectedElement.scaleY || 1))}
                   onChange={(e) => handleElementChange(id, { height: +e.target.value })}
-                  className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+                  className="px-2 py-1 border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
                 />
               </div>
             </>
@@ -95,7 +95,7 @@ const PropertiesPanel = () => {
             type="color"
             value={normalizeColorValue(selectedElement.fill, '#ffffff')}
             onChange={(e) => handleElementChange(id, { fill: e.target.value })}
-            className="border border-gray-300 rounded-lg w-full h-10 cursor-pointer"
+            className="border border-border rounded-lg w-full h-10 cursor-pointer"
           />
           <label className="flex items-center gap-2 mt-2">
             <input
@@ -121,7 +121,7 @@ const PropertiesPanel = () => {
           <h4 className="font-semibold text-muted-foreground text-xs">Radius & Gradient</h4>
           {selectedElement.type === 'circle' && (
             <div>
-              <label className="block mb-1 text-gray-500 text-xs">
+              <label className="block mb-1 text-muted-foreground text-xs">
                 Radius: {selectedElement.radius || Math.round((selectedElement.width || 0) / 2)}
               </label>
               <input
@@ -136,7 +136,7 @@ const PropertiesPanel = () => {
           )}
           {selectedElement.type === 'rect' && (
             <div>
-              <label className="block mb-1 text-gray-500 text-xs">
+              <label className="block mb-1 text-muted-foreground text-xs">
                 Corner Radius: {selectedElement.rx || 0}
               </label>
               <input
@@ -169,7 +169,7 @@ const PropertiesPanel = () => {
               type="color"
               value={selectedElement.stroke || '#000000'}
               onChange={(e) => handleElementChange(id, { stroke: e.target.value })}
-              className="border border-gray-300 rounded-lg w-full h-10 cursor-pointer"
+              className="border border-border rounded-lg w-full h-10 cursor-pointer"
             />
           </div>
           <div>
@@ -223,7 +223,7 @@ const PropertiesPanel = () => {
       <div className="space-y-3">
         <h4 className="font-semibold text-muted-foreground text-xs">Shadow</h4>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">Shadow Color:</label>
+          <label className="block mb-1 text-muted-foreground text-xs">Shadow Color:</label>
           <input
             type="color"
             value={normalizeColorValue(selectedElement.shadow?.color, '#000000')}
@@ -232,11 +232,11 @@ const PropertiesPanel = () => {
                 shadow: { ...selectedElement.shadow, color: e.target.value },
               })
             }
-            className="border border-gray-300 rounded w-full h-8 cursor-pointer"
+            className="border border-border rounded w-full h-8 cursor-pointer"
           />
         </div>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">
+          <label className="block mb-1 text-muted-foreground text-xs">
             Blur: {selectedElement.shadow?.blur || 0}
           </label>
           <input
@@ -254,7 +254,7 @@ const PropertiesPanel = () => {
         </div>
         <div className="gap-2 grid grid-cols-2">
           <div>
-            <label className="block mb-1 text-gray-500 text-xs">
+            <label className="block mb-1 text-muted-foreground text-xs">
               Offset X: {selectedElement.shadow?.offsetX || 0}
             </label>
             <input
@@ -271,7 +271,7 @@ const PropertiesPanel = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 text-gray-500 text-xs">
+            <label className="block mb-1 text-muted-foreground text-xs">
               Offset Y: {selectedElement.shadow?.offsetY || 0}
             </label>
             <input
@@ -289,7 +289,7 @@ const PropertiesPanel = () => {
           </div>
         </div>
         <div>
-          <label className="block mb-1 text-gray-500 text-xs">
+          <label className="block mb-1 text-muted-foreground text-xs">
             Opacity: {Math.round((selectedElement.shadow?.opacity || 1) * 100)}%
           </label>
           <input
@@ -352,21 +352,21 @@ const PropertiesPanel = () => {
       {selectedElement.type === 'image' && (
         <div className="space-y-3">
           <h4 className="font-semibold text-muted-foreground text-xs">Image Filters</h4>
-          <p className="text-gray-500 text-xs">Use the Filters tab to adjust image properties</p>
+          <p className="text-muted-foreground text-xs">Use the Filters tab to adjust image properties</p>
         </div>
       )}
 
       {/* Actions */}
-      <div className="space-y-2 pt-4 border-gray-200 border-t">
+      <div className="space-y-2 pt-4 border-border border-t">
         <button
           onClick={duplicateSelected}
-          className="flex justify-center items-center gap-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg w-full text-white transition-colors"
+          className="flex justify-center items-center gap-2 bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg w-full text-primary-foreground transition-colors"
         >
           Duplicate
         </button>
         <button
           onClick={deleteSelected}
-          className="flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg w-full text-white transition-colors"
+          className="flex justify-center items-center gap-2 bg-destructive hover:bg-destructive/90 px-4 py-2 rounded-lg w-full text-destructive-foreground transition-colors"
         >
           Delete
         </button>
@@ -390,7 +390,7 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         <textarea
           value={selectedElement.text || ''}
           onChange={(e) => handleElementChange(id, { text: e.target.value })}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+          className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
           rows="3"
         />
       </div>
@@ -414,7 +414,7 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         <select
           value={selectedElement.fontFamily || 'Arial'}
           onChange={(e) => handleElementChange(id, { fontFamily: e.target.value })}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+          className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
         >
           <option value="Arial">Arial</option>
           <option value="Helvetica">Helvetica</option>
@@ -433,7 +433,7 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         <select
           value={selectedElement.fontWeight || 'normal'}
           onChange={(e) => handleElementChange(id, { fontWeight: e.target.value })}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+          className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
         >
           <option value="100">100 (Thin)</option>
           <option value="200">200 (Extra Light)</option>
@@ -453,7 +453,7 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
         <select
           value={selectedElement.fontStyle || 'normal'}
           onChange={(e) => handleElementChange(id, { fontStyle: e.target.value })}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
+          className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm bg-background text-foreground"
         >
           <option value="normal">Normal</option>
           <option value="italic">Italic</option>
@@ -471,8 +471,8 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
               onClick={() => handleElementChange(id, { textAlign: align })}
               className={`px-3 py-2 text-xs rounded-lg border-2 transition-all ${
                 selectedElement.textAlign === align
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-primary bg-secondary text-accent-foreground'
+                  : 'border-border hover:border-primary/50'
               }`}
             >
               {align}
@@ -503,8 +503,8 @@ const TextProperties = ({ selectedElement, handleElementChange }) => {
                 }}
                 className={`px-3 py-2 font-bold rounded-lg border-2 transition-all ${
                   isActive
-                    ? 'border-blue-500 bg-blue-50 text-blue-700'
-                    : 'border-gray-300 hover:border-gray-400'
+                    ? 'border-primary bg-secondary text-accent-foreground'
+                    : 'border-border hover:border-primary/50'
                 }`}
               >
                 {decor.label}
@@ -557,16 +557,16 @@ const FrameProperties = ({ selectedElement, handleElementChange }) => {
     <div className="space-y-3">
       <h4 className="font-semibold text-muted-foreground text-xs">Frame Properties</h4>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Border Color:</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Border Color:</label>
         <input
           type="color"
           value={selectedElement.stroke || '#000000'}
           onChange={(e) => handleElementChange(id, { stroke: e.target.value })}
-          className="border border-gray-300 rounded w-full h-8 cursor-pointer"
+          className="border border-border rounded w-full h-8 cursor-pointer"
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">
+        <label className="block mb-1 text-muted-foreground text-xs">
           Border Width: {selectedElement.strokeWidth || 4}
         </label>
         <input
@@ -579,7 +579,7 @@ const FrameProperties = ({ selectedElement, handleElementChange }) => {
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">
+        <label className="block mb-1 text-muted-foreground text-xs">
           Dash Length: {selectedElement.strokeDashArray ? selectedElement.strokeDashArray[0] : 10}
         </label>
         <input
@@ -599,7 +599,7 @@ const FrameProperties = ({ selectedElement, handleElementChange }) => {
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">
+        <label className="block mb-1 text-muted-foreground text-xs">
           Dash Gap: {selectedElement.strokeDashArray ? selectedElement.strokeDashArray[1] : 5}
         </label>
         <input
@@ -619,7 +619,7 @@ const FrameProperties = ({ selectedElement, handleElementChange }) => {
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">
+        <label className="block mb-1 text-muted-foreground text-xs">
           Corner Radius: {selectedElement.rx || 0}
         </label>
         <input
@@ -632,12 +632,12 @@ const FrameProperties = ({ selectedElement, handleElementChange }) => {
         />
       </div>
       <div>
-        <label className="block mb-1 text-gray-500 text-xs">Fill Color:</label>
+        <label className="block mb-1 text-muted-foreground text-xs">Fill Color:</label>
         <input
           type="color"
           value={normalizeColorValue(selectedElement.fill, '#ffffff')}
           onChange={(e) => handleElementChange(id, { fill: e.target.value })}
-          className="border border-gray-300 rounded w-full h-8 cursor-pointer"
+          className="border border-border rounded w-full h-8 cursor-pointer"
         />
         <label className="flex items-center gap-2 mt-2">
           <input
@@ -671,8 +671,8 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
   const [enabled, setEnabled] = useState(
     selectedElement && selectedElement.fill && typeof selectedElement.fill !== 'string',
   );
-  const [from, setFrom] = useState(initialFrom || '#3b82f6');
-  const [to, setTo] = useState('#8b5cf6');
+  const [from, setFrom] = useState(initialFrom || '#FF6B00');
+  const [to, setTo] = useState('#FF8C38');
   const [type, setType] = useState('linear');
 
   useEffect(() => {
@@ -681,7 +681,7 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
       const stops = f.colorStops;
       if (stops.length >= 2) {
         setFrom(normalizeColorValue(stops[0].color, '#ffffff'));
-        setTo(normalizeColorValue(stops[stops.length - 1].color, '#8b5cf6'));
+        setTo(normalizeColorValue(stops[stops.length - 1].color, '#FF8C38'));
         setEnabled(true);
       }
       if (f.type) setType(f.type);
@@ -711,7 +711,7 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
       {enabled && (
         <div className="gap-2 grid grid-cols-2 mt-2">
           <div>
-            <label className="block mb-1 text-gray-500 text-xs">From</label>
+            <label className="block mb-1 text-muted-foreground text-xs">From</label>
             <input
               type="color"
               value={from}
@@ -720,7 +720,7 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
             />
           </div>
           <div>
-            <label className="block mb-1 text-gray-500 text-xs">To</label>
+            <label className="block mb-1 text-muted-foreground text-xs">To</label>
             <input
               type="color"
               value={to}
@@ -729,11 +729,11 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
             />
           </div>
           <div className="col-span-2">
-            <label className="block mb-1 text-gray-500 text-xs">Type</label>
+            <label className="block mb-1 text-muted-foreground text-xs">Type</label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="px-2 py-1 border border-gray-300 rounded w-full"
+              className="px-2 py-1 border border-border rounded w-full bg-background text-foreground"
             >
               <option value="linear">Linear</option>
               <option value="radial">Radial</option>
@@ -742,11 +742,11 @@ const GradientControls = ({ selectedElement, handleElementChange }) => {
           <div className="flex gap-2 col-span-2 mt-2">
             <button
               onClick={applyGradient}
-              className="flex-1 bg-blue-600 px-3 py-2 rounded text-white"
+              className="flex-1 bg-primary px-3 py-2 rounded text-primary-foreground"
             >
               Apply
             </button>
-            <button onClick={removeGradient} className="flex-1 bg-gray-100 px-3 py-2 rounded">
+            <button onClick={removeGradient} className="flex-1 bg-secondary px-3 py-2 rounded text-secondary-foreground">
               Remove
             </button>
           </div>
